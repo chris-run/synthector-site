@@ -4,29 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Synthector — raw → (PII-0) → synthetic</title>
-  <meta name="description" content="Synthector is a data transformation layer that sits before AI systems—designed to irreversibly transform unstructured text and audio into privacy‑reduced outputs." />
+  <title>Synthector — deterministic PII redaction + attestations</title>
+  <meta name="description" content="Synthector is a deterministic, auditable PII-redaction layer for unstructured text transcripts with fail-closed leak check and signed attestations." />
 
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#0b0f14" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-  <!--
-    Fonts
-    =====
-    Simplest (enabled): Google Fonts for IBM Plex Sans / Mono.
-
-    If you want to be extra conservative from a GDPR/privacy perspective,
-    self-host the .woff2 files in your repo and replace this link with @font-face rules.
-  -->
+  <!-- Fonts (Google Fonts). Self-host if you want to avoid third-party font requests. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
-  <!-- Open Graph (nice when you paste synthector.com into Slack/LinkedIn/etc.) -->
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Synthector" />
-  <meta property="og:description" content="raw → (PII-0) → synthetic. A data transformation layer that sits before AI systems." />
+  <meta property="og:description" content="Deterministic PII redaction for transcripts + fail-closed leak check + signed attestations." />
   <meta property="og:url" content="https://synthector.com/" />
 
   <style>
@@ -108,33 +100,19 @@
 
     .brand{
       display:flex;
-      align-items:center;
-      gap: 12px;
+      align-items:baseline;
+      gap: 10px;
       min-width: 240px;
     }
 
-    .mark{
-      width: 46px;
-      height: 46px;
-      flex: 0 0 auto;
-      color: var(--text);
-      opacity: .95;
-    }
-
-    .wordmark{
-      display:flex;
-      flex-direction:column;
-      gap: 2px;
-      line-height: 1.1;
-    }
-
-    .wordmark strong{
+    .brand strong{
+      font-family: var(--mono);
+      font-weight: 700;
       font-size: 18px;
       letter-spacing: .2px;
-      font-weight: 700;
     }
 
-    .wordmark span{
+    .brand span{
       font-family: var(--mono);
       font-size: 12px;
       color: var(--muted);
@@ -163,9 +141,7 @@
       text-decoration: none;
     }
 
-    main{
-      padding-top: 10px;
-    }
+    main{ padding-top: 10px; }
 
     .hero{
       display:grid;
@@ -198,14 +174,9 @@
       background: linear-gradient(180deg, var(--card2), transparent 160%);
     }
 
-    .dots{
-      display:flex;
-      gap: 8px;
-      opacity: .8;
-    }
+    .dots{ display:flex; gap: 8px; opacity: .8; }
     .dot{
-      width: 10px;
-      height: 10px;
+      width: 10px; height: 10px;
       border-radius: 999px;
       background: var(--faint);
       border: 1px solid var(--border);
@@ -221,10 +192,7 @@
       white-space:nowrap;
     }
 
-    .terminalBody{
-      padding: 16px 16px 14px;
-    }
-
+    .terminalBody{ padding: 16px 16px 14px; }
     .terminalBody pre{
       margin: 0;
       white-space: pre-wrap;
@@ -234,18 +202,20 @@
       color: var(--text);
     }
 
+    /* Hero headline: IBM Plex Mono as requested */
     .h1{
       margin: 0 0 10px;
-      font-size: clamp(34px, 4.2vw, 54px);
+      font-family: var(--mono);
+      font-size: clamp(34px, 4.2vw, 56px);
       letter-spacing: -0.6px;
       font-weight: 700;
     }
 
-    .lead{
+    .subhead{
       margin: 0 0 14px;
       font-size: 16px;
       color: var(--muted);
-      max-width: 62ch;
+      max-width: 70ch;
     }
 
     .pipeline{
@@ -261,10 +231,7 @@
       margin: 0 0 18px;
     }
 
-    .pipeline b{
-      color: var(--text);
-      font-weight: 500;
-    }
+    .pipeline b{ color: var(--text); font-weight: 500; }
 
     .ctaRow{
       display:flex;
@@ -290,10 +257,7 @@
       text-decoration:none;
       border-color: rgba(124,227,255,.40);
     }
-
-    .btn.secondary{
-      background: var(--card);
-    }
+    .btn.secondary{ background: var(--card); }
 
     .cards{
       display:grid;
@@ -325,20 +289,14 @@
 
     .card li{ margin: 6px 0; }
 
-    .muted{
-      color: var(--muted);
-    }
-
-    .privacyBlock{
-      margin-top: 14px;
-    }
-
     details{
       border: 1px solid var(--border);
       border-radius: var(--radius);
       background: linear-gradient(180deg, var(--card), transparent 170%);
       overflow:hidden;
+      margin-top: 14px;
     }
+
     summary{
       cursor:pointer;
       padding: 14px 14px;
@@ -353,25 +311,21 @@
       gap: 10px;
     }
     summary::-webkit-details-marker{ display:none; }
-    summary .hint{ color: var(--muted); font-size: 12px; }
 
     .detailsBody{
       padding: 0 14px 14px;
       border-top: 1px solid var(--border);
     }
 
-    .detailsBody p{
-      margin: 10px 0 10px;
+    .detailsBody p, .detailsBody li{
       color: var(--muted);
       font-size: 13px;
-      max-width: 85ch;
+      max-width: 90ch;
     }
 
     .detailsBody ul{
-      margin: 0;
+      margin: 10px 0 0;
       padding-left: 18px;
-      color: var(--muted);
-      font-size: 13px;
     }
 
     footer{
@@ -394,24 +348,10 @@
       font-family: var(--mono);
     }
 
-    .kbd{
-      font-family: var(--mono);
-      font-size: 12px;
-      padding: 2px 7px;
-      border-radius: 8px;
-      border: 1px solid var(--border);
-      background: var(--card);
-      color: var(--muted);
-    }
-
     :focus-visible{
       outline: 2px solid rgba(124,227,255,.65);
       outline-offset: 2px;
       border-radius: 10px;
-    }
-
-    @media (prefers-reduced-motion: reduce){
-      *{ scroll-behavior: auto !important; }
     }
   </style>
 
@@ -433,22 +373,8 @@
   <div class="wrap">
     <header>
       <div class="brand" aria-label="Synthector">
-        <svg class="mark" viewBox="0 0 120 64" role="img" aria-label="Synthector mark">
-          <title>Synthector</title>
-          <g fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" opacity="0.95">
-            <circle cx="14" cy="32" r="6" fill="currentColor" stroke="none"/>
-            <path d="M20 32h24"/>
-            <rect x="44" y="22" width="22" height="20" rx="6"/>
-            <path d="M66 32h22"/>
-            <path d="M88 24l14 8-14 8"/>
-            <circle cx="110" cy="32" r="6" fill="currentColor" stroke="none"/>
-          </g>
-        </svg>
-
-        <div class="wordmark">
-          <strong>Synthector</strong>
-          <span>raw --&gt; (PII-0) --&gt; synthetic</span>
-        </div>
+        <strong>Synthector</strong>
+        <span>raw → PII-only → safe-to-process</span>
       </div>
 
       <nav aria-label="Site">
@@ -462,60 +388,65 @@
     <main id="content">
       <section class="hero" aria-label="Intro">
         <div>
-          <h1 class="h1">Privacy‑reduced inputs for AI.</h1>
+          <h1 class="h1">Synthector</h1>
 
           <p class="pipeline" aria-label="Transformation pipeline">
-            <b>raw</b> → <b>(PII‑0)</b> → <b>synthetic</b>
+            <b>raw</b> → <b>PII-only</b> → <b>safe-to-process</b>
           </p>
 
-          <p class="lead">
-            Synthector is a data transformation layer that sits before AI systems—designed to irreversibly transform unstructured text and audio that may contain personal data into privacy‑reduced outputs (and optional synthetic artifacts).
+          <p class="subhead">
+            A deterministic, auditable redaction layer for unstructured text transcripts.
+            Outputs include a fail-closed leak check, numeric aggregates, and signed attestations
+            you can verify offline.
           </p>
 
           <div class="ctaRow">
             <a class="btn" href="mailto:Synthector@gmail.com?subject=Synthector%20—%20Intro">Email: Synthector@gmail.com</a>
-            <a class="btn secondary" href="#what">Read the overview</a>
+            <a class="btn secondary" href="#what">Overview</a>
           </div>
 
           <div class="cards" style="margin-top: 18px;">
             <div class="card" id="what">
               <h2>[1] What it is</h2>
               <ul>
-                <li>A transformation layer designed to reduce handling and retention of personal data before downstream AI usage.</li>
-                <li>Built for unstructured inputs (text + audio) and privacy‑reduced outputs.</li>
-                <li>Intended to support safer experimentation and audit‑friendly evidence from early deployments.</li>
+                <li><strong>Text-first</strong> deterministic PII redaction for transcripts (pilot scope).</li>
+                <li><strong>Fail-closed</strong> leak check to prevent unsafe output on hard leaks.</li>
+                <li><strong>Signed attestation</strong> artifact (JWS / Ed25519) for auditability.</li>
+                <li><strong>Numeric aggregates</strong> (counts only) for metering and system health.</li>
               </ul>
             </div>
 
             <div class="card">
               <h2>[2] What it is not</h2>
               <ul>
-                <li>Not a data warehouse.</li>
-                <li>Not a model training platform.</li>
-                <li>Not long‑term storage for customer content.</li>
+                <li>Not sponsor-safe business abstraction (separate policy layer; not in pilot scope).</li>
+                <li>Not a model training platform. No training on customer text.</li>
+                <li>Not long-term storage for customer content by default.</li>
               </ul>
             </div>
           </div>
         </div>
 
-        <div class="panel" aria-label="Terminal style overview">
+        <div class="panel" aria-label="Example contract">
           <div class="terminalTop">
             <div class="dots" aria-hidden="true">
               <div class="dot"></div><div class="dot"></div><div class="dot"></div>
             </div>
-            <div class="terminalTitle">synthector.md <span class="kbd">README</span></div>
+            <div class="terminalTitle">output.contract <span style="opacity:.75;">(pilot)</span></div>
           </div>
           <div class="terminalBody">
-            <pre><code># Synthector
-raw --> (PII-0) --> synthetic
-
-A pre-AI transformation layer.
-
-- privacy-reduced outputs
-- optional synthetic artifacts
-- pilot / pre-v1.0
-
-contact: Synthector@gmail.com</code></pre>
+            <pre><code>{
+  "anonymized_text": "...",
+  "leak_check": { "status": "pass|fail" },
+  "aggregated_statistics": {
+    "entities_total": 123,
+    "entities_by_type": { "...": 0 },
+    "entities_by_severity": { "A": 0, "B": 0 }
+  },
+  "ruleset_version": "…",
+  "attestation": { "...minimal, verifiable fields..." },
+  "attestation_jws": "…signed JWS…"
+}</code></pre>
           </div>
         </div>
       </section>
@@ -524,63 +455,32 @@ contact: Synthector@gmail.com</code></pre>
         <div class="card">
           <h2>[3] Status</h2>
           <ul>
-            <li>Early-stage / pilot posture.</li>
+            <li>Pilot posture: text-first, deterministic PII-only scope.</li>
+            <li>Designed for auditability and repeatable safety gates.</li>
             <li>Informational only; no legal guarantees.</li>
-            <li>If you’re exploring privacy‑reduced AI workflows, reach out.</li>
           </ul>
         </div>
       </section>
 
-      <section class="privacyBlock" id="privacy" aria-label="Privacy">
+      <section id="privacy" aria-label="Privacy">
         <details>
-          <summary>
-            Privacy / GDPR notice
-            <span class="hint">minimal transparency for a static site</span>
-          </summary>
-
+          <summary>Privacy note <span style="color: var(--muted); font-size: 12px;">(static site)</span></summary>
           <div class="detailsBody">
             <p>
-              This page is a simple informational splash page. The notice below is provided to support transparency expectations under GDPR/UK GDPR (e.g., the kind of information described in Article 13 / “right to be informed” guidance).
-              It is not legal advice.
+              This is a simple informational page. No analytics scripts, ad pixels, or marketing cookies are included.
             </p>
-
             <ul>
-              <li><strong>Data controller:</strong> Christopher R. Runowski (Synthector project). Contact: <a href="mailto:Synthector@gmail.com">Synthector@gmail.com</a></li>
-
-              <li><strong>Data processed when you visit this site:</strong> technical connection/log data (e.g., IP address, user-agent, timestamp, requested URL) may be processed by the hosting platform to deliver and secure the site.</li>
-
-              <li><strong>Hosting / recipients:</strong> This site is hosted on GitHub Pages. GitHub states that when a GitHub Pages site is visited, the visitor’s IP address is logged and stored for security purposes.</li>
-
-              <li><strong>Fonts / third parties:</strong> This page currently loads IBM Plex fonts via Google Fonts. That request can involve processing of your IP address by Google to deliver the font files. (You can self-host fonts later to avoid this.)</li>
-
-              <li><strong>Purposes:</strong> (1) operate and secure this website, (2) respond to messages you send.</li>
-
-              <li><strong>Lawful basis:</strong> legitimate interests (Art. 6(1)(f)) to operate and secure the site and respond to enquiries; and, where applicable, steps prior to entering a contract (Art. 6(1)(b)) when a message relates to potential services.</li>
-
-              <li><strong>International transfers:</strong> Some providers involved in hosting/content delivery may process data outside the EEA/UK. Refer to the relevant provider privacy statements for details and safeguards.</li>
-
-              <li><strong>Retention:</strong> Synthector does not run analytics on this page and does not intentionally store visitor profiles. Provider log retention is controlled by the provider. Emails you send are retained only as long as needed to reply and maintain reasonable records, then deleted when no longer needed.</li>
-
-              <li><strong>Your rights:</strong> depending on your situation and jurisdiction, you may have rights such as access, rectification, erasure, restriction, objection (including the right to object to processing based on legitimate interests), portability, and the right to lodge a complaint with your supervisory authority. To exercise rights relating to this site, email <a href="mailto:Synthector@gmail.com">Synthector@gmail.com</a>.</li>
-
-              <li><strong>No tracking / marketing:</strong> No advertising pixels, no marketing cookies, and no analytics scripts are included in this page.</li>
-
-              <li><strong>Automated decisions:</strong> none.</li>
+              <li><strong>Contact:</strong> <a href="mailto:Synthector@gmail.com">Synthector@gmail.com</a></li>
+              <li><strong>Hosting:</strong> GitHub Pages may process standard access logs (e.g., IP address, user-agent) to deliver and secure the site.</li>
+              <li><strong>Fonts:</strong> This page loads IBM Plex via Google Fonts. You can self-host fonts later to avoid third-party font requests.</li>
             </ul>
-
-            <p style="margin-top: 10px;">
-              Provider references (for convenience):<br/>
-              • GitHub Pages: <a href="https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages" target="_blank" rel="noopener">What is GitHub Pages?</a><br/>
-              • GitHub: <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>
-            </p>
           </div>
         </details>
       </section>
 
       <footer aria-label="Footer">
         <div>
-          <span class="muted">Synthector is a project by</span> <strong>Christopher R. Runowski</strong><br/>
-          <span class="muted">© 2026 Christopher R. Runowski. All rights reserved.</span>
+          <span>© 2026 Christopher R. Runowski.</span>
         </div>
 
         <div class="footerLinks">
