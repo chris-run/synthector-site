@@ -4,21 +4,21 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Synthector — deterministic PII redaction + attestations</title>
-  <meta name="description" content="Synthector is a deterministic, auditable PII-redaction layer for unstructured text transcripts with fail-closed leak check and signed attestations." />
+  <title>Synthector — privacy-first inputs for AI</title>
+  <meta name="description" content="Synthector transforms unstructured text and audio into privacy-safe data—so teams can use AI without retaining sensitive raw content." />
 
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#0b0f14" />
   <meta name="referrer" content="strict-origin-when-cross-origin" />
 
-  <!-- Fonts (Google Fonts). Self-host if you want to avoid third-party font requests. -->
+  <!-- Fonts (Google Fonts). Self-host later if you want zero third-party requests. -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600;700&family=IBM+Plex+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 
   <meta property="og:type" content="website" />
   <meta property="og:title" content="Synthector" />
-  <meta property="og:description" content="Deterministic PII redaction for transcripts + fail-closed leak check + signed attestations." />
+  <meta property="og:description" content="Privacy-safe inputs for AI. Unstructured text & audio → privacy-reduced outputs." />
   <meta property="og:url" content="https://synthector.com/" />
 
   <style>
@@ -202,7 +202,7 @@
       color: var(--text);
     }
 
-    /* Hero headline: IBM Plex Mono as requested */
+    /* Headline in IBM Plex Mono */
     .h1{
       margin: 0 0 10px;
       font-family: var(--mono);
@@ -215,7 +215,7 @@
       margin: 0 0 14px;
       font-size: 16px;
       color: var(--muted);
-      max-width: 70ch;
+      max-width: 72ch;
     }
 
     .pipeline{
@@ -374,7 +374,7 @@
     <header>
       <div class="brand" aria-label="Synthector">
         <strong>Synthector</strong>
-        <span>raw → PII-only → safe-to-process</span>
+        <span>privacy-first inputs</span>
       </div>
 
       <nav aria-label="Site">
@@ -391,17 +391,16 @@
           <h1 class="h1">Synthector</h1>
 
           <p class="pipeline" aria-label="Transformation pipeline">
-            <b>raw</b> → <b>PII-only</b> → <b>safe-to-process</b>
+            <b>unstructured</b> → <b>privacy-safe</b> → <b>AI-ready</b>
           </p>
 
           <p class="subhead">
-            A deterministic, auditable redaction layer for unstructured text transcripts.
-            Outputs include a fail-closed leak check, numeric aggregates, and signed attestations
-            you can verify offline.
+            Synthector transforms unstructured text and audio into privacy-safe data so teams can use AI
+            without carrying raw sensitive content through their systems.
           </p>
 
           <div class="ctaRow">
-            <a class="btn" href="mailto:Synthector@gmail.com?subject=Synthector%20—%20Intro">Email: Synthector@gmail.com</a>
+            <a class="btn" href="mailto:Synthector@gmail.com?subject=Synthector%20—%20Intro">Contact</a>
             <a class="btn secondary" href="#what">Overview</a>
           </div>
 
@@ -409,44 +408,40 @@
             <div class="card" id="what">
               <h2>[1] What it is</h2>
               <ul>
-                <li><strong>Text-first</strong> deterministic PII redaction for transcripts (pilot scope).</li>
-                <li><strong>Fail-closed</strong> leak check to prevent unsafe output on hard leaks.</li>
-                <li><strong>Signed attestation</strong> artifact (JWS / Ed25519) for auditability.</li>
-                <li><strong>Numeric aggregates</strong> (counts only) for metering and system health.</li>
+                <li>A privacy-first transformation layer for unstructured inputs (text + audio).</li>
+                <li>Designed for auditability and predictable behavior.</li>
+                <li>Built around a “zero retention by default” posture for customer content.</li>
               </ul>
             </div>
 
             <div class="card">
-              <h2>[2] What it is not</h2>
+              <h2>[2] Why it exists</h2>
               <ul>
-                <li>Not sponsor-safe business abstraction (separate policy layer; not in pilot scope).</li>
-                <li>Not a model training platform. No training on customer text.</li>
-                <li>Not long-term storage for customer content by default.</li>
+                <li>AI is powerful, but raw inputs often contain sensitive material.</li>
+                <li>Most teams want insights without increasing privacy and compliance risk.</li>
+                <li>Synthector helps reduce risk before downstream processing.</li>
               </ul>
             </div>
           </div>
         </div>
 
-        <div class="panel" aria-label="Example contract">
+        <div class="panel" aria-label="Short overview">
           <div class="terminalTop">
             <div class="dots" aria-hidden="true">
               <div class="dot"></div><div class="dot"></div><div class="dot"></div>
             </div>
-            <div class="terminalTitle">output.contract <span style="opacity:.75;">(pilot)</span></div>
+            <div class="terminalTitle">synthector.txt</div>
           </div>
           <div class="terminalBody">
-            <pre><code>{
-  "anonymized_text": "...",
-  "leak_check": { "status": "pass|fail" },
-  "aggregated_statistics": {
-    "entities_total": 123,
-    "entities_by_type": { "...": 0 },
-    "entities_by_severity": { "A": 0, "B": 0 }
-  },
-  "ruleset_version": "…",
-  "attestation": { "...minimal, verifiable fields..." },
-  "attestation_jws": "…signed JWS…"
-}</code></pre>
+            <pre><code>Synthector
+
+Privacy-first inputs for AI.
+
+Unstructured text + audio
+→ privacy-safe outputs
+→ safer downstream workflows
+
+Contact: Synthector@gmail.com</code></pre>
           </div>
         </div>
       </section>
@@ -455,9 +450,9 @@
         <div class="card">
           <h2>[3] Status</h2>
           <ul>
-            <li>Pilot posture: text-first, deterministic PII-only scope.</li>
-            <li>Designed for auditability and repeatable safety gates.</li>
-            <li>Informational only; no legal guarantees.</li>
+            <li>Early-stage, pilot posture.</li>
+            <li>Focused on reliable privacy-safe transformation for real workflows.</li>
+            <li>If you’re exploring privacy-first AI, reach out.</li>
           </ul>
         </div>
       </section>
