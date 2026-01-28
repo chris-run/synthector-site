@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <title>Synthector — privacy-first inputs for AI</title>
-  <meta name="description" content="Synthector transforms unstructured text and audio into privacy-safe data—so teams can use AI without retaining sensitive raw content." />
+  <meta name="description" content="Synthector transforms unstructured text and audio into de-risked, privacy-safe data—so teams can use AI without retaining sensitive raw content." />
 
   <meta name="color-scheme" content="dark light" />
   <meta name="theme-color" content="#0b0f14" />
@@ -408,7 +408,7 @@
             <div class="card" id="what">
               <h2>[1] What it is</h2>
               <ul>
-                <li>A privacy-first transformation layer for unstructured inputs (text + audio).</li>
+                <li>Privacy-first transformation infrastructure for unstructured inputs (text + audio).</li>
                 <li>Designed for auditability and predictable behavior.</li>
                 <li>Built around a “zero retention by default” posture for customer content.</li>
               </ul>
@@ -417,9 +417,9 @@
             <div class="card">
               <h2>[2] Why it exists</h2>
               <ul>
-                <li>AI is powerful, but raw inputs often contain sensitive material.</li>
+                <li>AI is powerful, but raw inputs often contain Personally Identifiable Information (PII).</li>
                 <li>Most teams want insights without increasing privacy and compliance risk.</li>
-                <li>Synthector helps reduce risk before downstream processing.</li>
+                <li>Synthector helps reduce risk before downstream data processing or storage.</li>
               </ul>
             </div>
           </div>
@@ -430,18 +430,17 @@
             <div class="dots" aria-hidden="true">
               <div class="dot"></div><div class="dot"></div><div class="dot"></div>
             </div>
-            <div class="terminalTitle">synthector.txt</div>
+            <div class="terminalTitle">synthector.json</div>
           </div>
           <div class="terminalBody">
-            <pre><code>Synthector
-
-Privacy-first inputs for AI.
-
-Unstructured text + audio
-→ privacy-safe outputs
-→ safer downstream workflows
-
-Contact: Synthector@gmail.com</code></pre>
+            <pre><code>{
+  "name": "Synthector",
+  "tagline": "privacy-first inputs for AI",
+  "inputs": ["unstructured text", "unstructured audio"],
+  "output": "privacy-safe data",
+  "default": "zero retention for customer content",
+  "contact": "Synthector@gmail.com"
+            }</code></pre>
           </div>
         </div>
       </section>
