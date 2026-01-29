@@ -156,6 +156,69 @@
       nav{ justify-content:flex-start; }
     }
 
+    /* Mobile hardening */
+    @media (max-width: 600px){
+      .wrap{
+        width: min(1040px, 94vw);
+        padding: 18px 0 32px;
+      }
+
+      header{
+        flex-direction: column;
+        align-items: flex-start;
+        padding-bottom: 10px;
+      }
+
+      .brand{ min-width: unset; }
+
+      nav{
+        width: 100%;
+        justify-content: flex-start;
+        gap: 10px;
+      }
+
+      nav a{ padding: 7px 9px; }
+
+      .pipeline{
+        width: 100%;
+        justify-content: center;
+        text-align: center;
+        flex-wrap: wrap;
+        line-height: 1.3;
+      }
+
+      .ctaRow{ flex-direction: column; }
+
+      .btn{
+        width: 100%;
+        justify-content: center;
+      }
+
+      .card{ padding: 12px; }
+
+      .terminalBody{ padding: 14px 12px 12px; }
+
+      /* Make "terminal" code readable on mobile */
+      .terminalBody pre{
+        white-space: pre;            /* preserve indentation */
+        overflow-x: auto;            /* horizontal scroll */
+        -webkit-overflow-scrolling: touch;
+        padding-bottom: 2px;
+      }
+
+      .terminalBody pre code{
+        display: block;
+        min-width: max-content;      /* prevents weird wrapping */
+      }
+    }
+
+    /* Extra small phones */
+    @media (max-width: 420px){
+      .h1{ font-size: 34px; }
+      .subhead{ font-size: 15px; }
+      .terminalBody pre{ font-size: 12px; }
+    }
+
     .panel{
       border: 1px solid var(--border);
       background: linear-gradient(180deg, var(--card), transparent 140%);
@@ -395,12 +458,12 @@
           </p>
 
           <p class="subhead">
-            Synthector transforms unstructured text and audio into privacy-safe data so teams can use AI
+            Synthector transforms unstructured text and audio into privacy-safe outputs so teams can use AI
             without carrying raw sensitive content through their systems.
           </p>
 
           <div class="ctaRow">
-            <a class="btn" href="mailto:Synthector@gmail.com?subject=Synthector%20—%20Intro">Contact</a>
+            <a class="btn" href="mailto:Synthector@gmail.com?subject=Synthector%20—%20Hello">Contact</a>
             <a class="btn secondary" href="#what">Overview</a>
           </div>
 
@@ -409,8 +472,8 @@
               <h2>[1] What it is</h2>
               <ul>
                 <li>Privacy-first transformation infrastructure for unstructured inputs (text + audio).</li>
-                <li>Designed for auditability and predictable behavior.</li>
-                <li>Built around a “zero retention by default” posture for customer content.</li>
+                <li>Designed for auditability and predictable behaviour.</li>
+                <li>Built on "Zero retention by default.” Synthector never keeps your raw or processed data.</li>
               </ul>
             </div>
 
@@ -437,7 +500,7 @@
   "name": "Synthector",
   "tagline": "The Privacy Layer Before AI.",
   "inputs": ["unstructured text", "unstructured audio"],
-  "output": "privacy-safe data",
+  "output": "privacy-safe outputs",
   "default": "zero retention for customer content",
   "contact": "Synthector@gmail.com"
 }</code></pre>
@@ -449,7 +512,7 @@
         <div class="card">
           <h2>[3] Status</h2>
           <ul>
-            <li>Early-stage, pilot ready.</li>
+            <li>Pilot-ready.</li>
             <li>Focused on reliable privacy-safe transformation for real workflows.</li>
             <li>If you’re exploring privacy-first AI, reach out.</li>
           </ul>
