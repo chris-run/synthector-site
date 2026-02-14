@@ -10,7 +10,6 @@
   <meta name="description" content="Synthector is a privacy-to-synthetic transformation layer: deterministic redaction + posthoc leak-gate, zero retention by default, and verifiable attestations for audit-friendly AI ingestion." />
   <link rel="canonical" href="https://Synthector.com/" />
 
-  <!-- Open Graph -->
   <meta property="og:title" content="Synthector — Deterministic privacy redaction + leak-gate for AI ingestion." />
   <meta property="og:description" content="Deterministic redaction + posthoc leak-gate for AI ingestion. Zero retention by default. Audit-friendly attestations." />
   <meta property="og:type" content="website" />
@@ -19,36 +18,49 @@
   <link rel="icon" href="assets/favicon.svg" type="image/svg+xml" />
   <link rel="apple-touch-icon" href="assets/logo-mark.svg" />
 
-  <!-- IBM Plex (optional CDN). Site remains readable with system fallbacks. -->
+  <!-- Optional CDN fonts; site remains readable with fallbacks -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet" />
 
   <link rel="stylesheet" href="styles.css" />
   <script defer src="app.js"></script>
+
+  <!-- Minimal structured data (static) -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"Organization",
+    "name":"Synthector",
+    "url":"https://Synthector.com",
+    "email":"Synthector@gmail.com",
+    "founder":"Christopher R. Runowski"
+  }
+  </script>
 </head>
 
 <body>
-  <a class="skip-link" href="#main">Skip to content</a>
+  <a class="skip" href="#main">Skip to content</a>
 
-  <header class="site-header" id="top">
-    <div class="nav-shell">
+  <header class="header" id="top">
+    <div class="container header-inner">
       <a class="brand" href="#top" aria-label="Synthector home">
         <img src="assets/logo-mark.svg" alt="" width="28" height="28" decoding="async" />
-        <span class="brand-name">Synthector</span>
-        <span class="brand-tag">privacy → synthetic layer</span>
+        <span class="brand-text">
+          <span class="brand-name">Synthector</span>
+          <span class="brand-sub">deterministic privacy boundary</span>
+        </span>
       </a>
 
-      <nav class="site-nav" aria-label="Primary navigation">
+      <nav class="nav nav-desktop" aria-label="Primary navigation">
         <a href="#what">What it does</a>
         <a href="#how">How it works</a>
         <a href="#security">Security</a>
         <a href="#partners">Partners</a>
         <a href="#technical-overview">Technical overview</a>
-        <a href="#request-pilot">Contact</a>
       </nav>
 
-      <div class="nav-actions">
+      <div class="header-actions">
         <button
           class="icon-btn"
           id="themeToggle"
@@ -58,23 +70,24 @@
           title="Toggle theme"
         >
           <svg class="icon icon-sun" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-16v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 15.6-1.4-1.4M18.4 5.6l1.4-1.4M4.2 19.8l1.4-1.4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+            <path d="M12 18a6 6 0 1 1 0-12 6 6 0 0 1 0 12Zm0-16v2m0 16v2M4 12H2m20 0h-2M5.6 5.6 4.2 4.2m15.6 15.6-1.4-1.4M18.4 5.6l1.4-1.4M4.2 19.8l1.4-1.4"
+              fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
           </svg>
           <svg class="icon icon-moon" viewBox="0 0 24 24" aria-hidden="true">
-            <path d="M21 14.6A8.2 8.2 0 0 1 9.4 3a7.1 7.1 0 1 0 11.6 11.6Z" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M21 14.6A8.2 8.2 0 0 1 9.4 3a7.1 7.1 0 1 0 11.6 11.6Z"
+              fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/>
           </svg>
         </button>
 
-        <a class="btn btn-primary btn-small" href="#request-pilot">Request pilot</a>
+        <a class="btn btn-primary btn-sm nav-desktop" href="#request-pilot">Request pilot</a>
 
-        <!-- Mobile menu -->
         <details class="nav-mobile">
           <summary class="icon-btn" aria-label="Open menu" title="Menu">
             <svg class="icon" viewBox="0 0 24 24" aria-hidden="true">
               <path d="M4 7h16M4 12h16M4 17h16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
             </svg>
           </summary>
-          <div class="nav-panel" role="menu">
+          <div class="nav-panel" role="menu" aria-label="Mobile navigation">
             <a role="menuitem" href="#what">What it does</a>
             <a role="menuitem" href="#how">How it works</a>
             <a role="menuitem" href="#determinism">Why deterministic</a>
@@ -82,7 +95,7 @@
             <a role="menuitem" href="#proof">Proof artifacts</a>
             <a role="menuitem" href="#partners">Partners</a>
             <a role="menuitem" href="#technical-overview">Technical overview</a>
-            <a role="menuitem" href="#request-pilot" class="btn btn-primary">Request pilot access</a>
+            <a role="menuitem" class="btn btn-primary" href="#request-pilot">Request pilot access</a>
           </div>
         </details>
       </div>
@@ -94,337 +107,263 @@
     <section class="hero">
       <div class="container hero-grid">
         <div class="hero-copy reveal">
-          <div class="kicker">
-            <span class="badge">Deterministic</span>
-            <span class="badge">Leak-gated</span>
-            <span class="badge">Zero-retention</span>
-          </div>
+          <p class="eyebrow">privacy-to-synthetic transformation layer</p>
 
-          <h1 class="hero-title">
+          <h1 class="h1">
             Deterministic privacy redaction + leak-gate for AI ingestion.
           </h1>
 
-          <p class="hero-subhead">
-            Synthector is a <strong>privacy-to-synthetic transformation layer</strong> for transcript and data pipelines.
-            It deterministically redacts sensitive spans, runs a leak-gate on the anonymized output, and emits
-            verifiable attestations—without persisting customer content.
+          <p class="subhead">
+            Embed Synthector into transcript/data pipelines to produce redacted text with deterministic behavior,
+            an explicit leak-gate, and verifiable attestations—without persisting customer content artifacts.
           </p>
 
-          <div class="hero-facts" role="list" aria-label="Key properties">
-            <div class="fact" role="listitem">
-              <span class="fact-dot" aria-hidden="true"></span>
-              <span><strong>Zero retention by default.</strong></span>
-            </div>
-            <div class="fact" role="listitem">
-              <span class="fact-dot" aria-hidden="true"></span>
-              <span><strong>Posthoc leak check runs on anonymized output only.</strong></span>
-            </div>
-            <div class="fact" role="listitem">
-              <span class="fact-dot" aria-hidden="true"></span>
-              <span><strong>Deterministic, audit-friendly, tenant-isolated.</strong></span>
-            </div>
-            <div class="fact" role="listitem">
-              <span class="fact-dot" aria-hidden="true"></span>
-              <span><strong>Designed for regulated pipelines.</strong></span>
-            </div>
-          </div>
+          <ul class="keypoints" aria-label="Key properties">
+            <li><strong>Zero retention by default.</strong></li>
+            <li><strong>Posthoc leak check runs on anonymized output only.</strong></li>
+            <li><strong>Deterministic, audit-friendly, tenant-isolated.</strong></li>
+            <li><strong>Designed for regulated pipelines.</strong></li>
+          </ul>
 
-          <div class="cta-row">
+          <div class="hero-cta">
             <a class="btn btn-primary" href="#request-pilot">Request pilot access</a>
             <a class="btn btn-secondary" href="#technical-overview">Read the technical overview</a>
           </div>
 
-          <p class="microcopy">
-            No backend. No marketing trackers. Just a predictable privacy boundary you can embed.
+          <p class="micro">
+            No analytics scripts. No trackers. Static delivery (GitHub Pages). The product boundary is the point.
           </p>
         </div>
 
-        <aside class="hero-panel reveal" aria-label="At-a-glance technical summary">
-          <div class="panel-head">
-            <span class="panel-title">Pipeline contract</span>
-            <span class="panel-chip">fail-closed configurable</span>
+        <aside class="hero-card reveal" aria-label="Example output envelope">
+          <div class="card-head">
+            <div>
+              <div class="card-title">Output contract</div>
+              <div class="card-sub">redacted text + gate + provenance (+ optional JWS)</div>
+            </div>
+            <span class="pill">fail-closed configurable</span>
           </div>
 
-          <div class="panel-body">
-            <div class="spec">
-              <div class="spec-k">Input</div>
-              <div class="spec-v">text (transcripts, chat, documents)</div>
-            </div>
-            <div class="spec">
-              <div class="spec-k">Output</div>
-              <div class="spec-v">redacted text + attestation (metadata)</div>
-            </div>
-            <div class="spec">
-              <div class="spec-k">Retention</div>
-              <div class="spec-v">in-memory processing; no content artifacts stored</div>
-            </div>
-            <div class="spec">
-              <div class="spec-k">Telemetry</div>
-              <div class="spec-v">numeric/categorical aggregates (tenant mode)</div>
-            </div>
+          <div class="specs" role="list">
+            <div class="spec" role="listitem"><span>Retention</span><span>in-memory only</span></div>
+            <div class="spec" role="listitem"><span>Artifacts stored</span><span>none (content)</span></div>
+            <div class="spec" role="listitem"><span>Telemetry</span><span>aggregate-only (mode)</span></div>
+          </div>
 
-            <div class="code-wrap" data-copy-surface>
-              <div class="code-head">
-                <span class="code-title">Example output envelope (illustrative)</span>
-                <button class="copy-btn" type="button" aria-label="Copy example JSON">Copy</button>
-              </div>
-              <pre class="code-block"><code>{
-  "redacted_text": "Agent: [PERSON_1], can you confirm your [ACCOUNT_ID]?",
-  "gate": { "result": "pass", "mode": "fail_closed" },
-  "attestation_jws": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9…",
+          <div class="codebox" data-copy-surface>
+            <div class="codebox-head">
+              <span class="codebox-title">Illustrative envelope</span>
+              <button class="copy-btn" type="button" aria-label="Copy JSON example">Copy</button>
+            </div>
+            <pre class="code"><code>{
+  "redacted_text": "Agent: [PERSON_1], confirm your [ACCOUNT_ID].",
+  "gate": { "mode": "fail_closed", "result": "pass" },
   "provenance": {
     "policy_id": "prod-pii-v1",
     "ruleset_sha256": "c83e…",
-    "timestamp_utc": "2026-02-14T00:00:00Z"
-  }
+    "ts_utc": "2026-02-14T00:00:00Z"
+  },
+  "attestation_jws": "eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9…"
 }</code></pre>
-            </div>
           </div>
         </aside>
       </div>
-
-      <div class="hero-bg" aria-hidden="true"></div>
     </section>
 
-    <!-- WHAT IT DOES -->
+    <!-- WHAT -->
     <section id="what" class="section">
       <div class="container">
         <header class="section-head reveal">
-          <h2>What it does</h2>
+          <h2 class="h2">What it does</h2>
           <p class="lead">
-            Synthector sits between your content sources and downstream AI/analytics. It transforms text into
-            a safer-by-construction representation and attaches machine-verifiable evidence of how it was produced.
+            Synthector sits between sources (transcripts/documents/chats) and downstream AI/analytics.
+            It deterministically transforms content, verifies the transformed output, and emits metadata-only evidence.
           </p>
         </header>
 
-        <div class="card-grid">
+        <div class="grid cards-5">
           <article class="card reveal">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
+              <div class="iconchip" aria-hidden="true">
                 <svg viewBox="0 0 24 24"><path d="M5 7h14M5 12h10M5 17h14" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
               </div>
-              <h3>Deterministic redaction</h3>
+              <h3 class="h3">Deterministic redaction</h3>
             </div>
             <p>
-              Deterministic detection and replacement of sensitive spans using rule-based signals
-              (regex/dictionaries) plus guarded entity detection.
+              Deterministic span detection and replacement using regex/dictionaries plus guarded entity detection.
             </p>
             <ul class="bullets">
-              <li>Stable outputs for the same input + ruleset</li>
-              <li>Structured placeholders (e.g., <code>[PERSON_1]</code>, <code>[EMAIL]</code>)</li>
-              <li>Change control via policy + ruleset identifiers</li>
+              <li>Stable outputs for identical inputs + ruleset</li>
+              <li>Normalized placeholders (<code>[PERSON_1]</code>, <code>[EMAIL]</code>)</li>
+              <li>Policy/ruleset identity carried as metadata</li>
             </ul>
           </article>
 
           <article class="card reveal">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
+              <div class="iconchip" aria-hidden="true">
                 <svg viewBox="0 0 24 24"><path d="M12 3v3m7.8 2.2-2.1 2.1M21 12h-3M19.8 19.8l-2.1-2.1M12 21v-3M6.3 17.7l-2.1 2.1M3 12h3M4.2 4.2l2.1 2.1" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/><path d="M8 12a4 4 0 1 0 8 0 4 4 0 0 0-8 0Z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
               </div>
-              <h3>Posthoc leak-gate</h3>
+              <h3 class="h3">Posthoc leak-gate</h3>
             </div>
             <p>
-              A second pass validates that the anonymized output doesn’t still contain disallowed patterns.
-              Fail-closed behavior is configurable per pipeline.
+              A verification pass that validates the anonymized output and can fail closed (block) when required.
             </p>
             <ul class="bullets">
               <li><strong>Posthoc leak check runs on anonymized output only.</strong></li>
-              <li>Block, quarantine, or return diagnostics (metadata)</li>
-              <li>Predictable “stop the line” semantics</li>
+              <li>Configurable: pass / block / quarantine (metadata)</li>
+              <li>Predictable “stop-the-line” semantics</li>
             </ul>
           </article>
 
           <article class="card reveal">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
+              <div class="iconchip" aria-hidden="true">
                 <svg viewBox="0 0 24 24"><path d="M7 11V7a5 5 0 0 1 10 0v4m-12 0h14v9H5v-9Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M12 15v2" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
               </div>
-              <h3>Attestation + provenance</h3>
+              <h3 class="h3">Attestation + provenance</h3>
             </div>
             <p>
-              Output includes metadata-only provenance and optional signed attestation (JWS) so downstream systems
-              can verify policy/ruleset identity and gating outcomes.
+              Metadata-only provenance plus optional signed attestation (JWS) for audit and downstream verification.
             </p>
             <ul class="bullets">
               <li>Ruleset hash + policy ID</li>
-              <li>Gating result + counters</li>
-              <li>Metadata-only provenance (no content)</li>
+              <li>Gate result + counters</li>
+              <li>No content included in evidence</li>
             </ul>
           </article>
 
           <article class="card reveal">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
+              <div class="iconchip" aria-hidden="true">
                 <svg viewBox="0 0 24 24"><path d="M12 3 20 7v6c0 5-3.5 8-8 8s-8-3-8-8V7l8-4Z" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/><path d="M9 12l2 2 4-5" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </div>
-              <h3>Tenant isolation + safe aggregates</h3>
+              <h3 class="h3">Tenant isolation + aggregates</h3>
             </div>
             <p>
-              Isolation boundaries for policies, rulesets, and telemetry. Aggregate-only stats modes for
-              tenant-safe observability.
+              Tenant-scoped policies/rulesets and safe telemetry modes that retain only numeric/categorical aggregates.
             </p>
             <div class="chips" aria-label="Aggregate modes">
               <span class="chip"><code>billing_only</code></span>
               <span class="chip"><code>health_kmin</code></span>
               <span class="chip"><code>off</code></span>
             </div>
-            <ul class="bullets">
-              <li>Numeric/categorical aggregates only (mode dependent)</li>
-              <li>Policy + ruleset metadata retained</li>
-            </ul>
           </article>
 
           <article class="card reveal">
             <div class="card-top">
-              <div class="card-icon" aria-hidden="true">
+              <div class="iconchip" aria-hidden="true">
                 <svg viewBox="0 0 24 24"><path d="M7 17c2.5 2.5 7.5 2.5 10 0M9 10h.01M15 10h.01" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path d="M12 22a10 10 0 1 0-10-10 10 10 0 0 0 10 10Z" fill="none" stroke="currentColor" stroke-width="1.7"/></svg>
               </div>
-              <h3>Optional synthetic profiles</h3>
+              <h3 class="h3">Optional synthetic profiles</h3>
             </div>
             <p>
-              Where useful, generate tenant-scoped synthetic replacements without persisting the original
-              or synthetic content. Output only.
+              Optional tenant-scoped synthetic replacements. Output-only; no retention of originals or synthetic artifacts.
             </p>
             <ul class="bullets">
               <li>Non-retained synthetic outputs</li>
-              <li>Useful for demos, QA, and shared analytics</li>
+              <li>Useful for QA, demos, partner workflows</li>
             </ul>
           </article>
         </div>
       </div>
     </section>
 
-    <!-- HOW IT WORKS -->
+    <!-- HOW -->
     <section id="how" class="section section-alt">
       <div class="container">
         <header class="section-head reveal">
-          <h2>How it works</h2>
+          <h2 class="h2">How it works</h2>
           <p class="lead">
-            A deterministic, inspectable pipeline with an explicit zero-retention boundary.
-            Downstream systems receive redacted text plus evidence—without Synthector storing artifacts.
+            A deterministic pipeline with an explicit zero-retention boundary:
+            Input → Detect → Redact → Leak-check → Attestation → Output.
           </p>
         </header>
 
-        <div class="how-grid">
-          <div class="how-steps reveal">
+        <div class="grid how-grid">
+          <div class="reveal">
             <ol class="steps">
-              <li>
-                <div class="step-title">Input</div>
-                <div class="step-desc">Text enters from transcripts, meeting notes, chat, or document pipelines.</div>
-              </li>
-              <li>
-                <div class="step-title">Detect</div>
-                <div class="step-desc">Deterministic detectors identify spans (regex/dict + guarded NER).</div>
-              </li>
-              <li>
-                <div class="step-title">Redact</div>
-                <div class="step-desc">Sensitive spans are replaced with normalized placeholders or synthetic equivalents (optional).</div>
-              </li>
-              <li>
-                <div class="step-title">Leak-check</div>
-                <div class="step-desc">Leak-gate validates the anonymized output and can fail closed (block) when required.</div>
-              </li>
-              <li>
-                <div class="step-title">Attestation</div>
-                <div class="step-desc">Emit metadata-only provenance + optional signed attestation token (JWS).</div>
-              </li>
-              <li>
-                <div class="step-title">Output</div>
-                <div class="step-desc">Return redacted text, gating result, and verification metadata to your pipeline.</div>
-              </li>
+              <li><strong>Input</strong> — text enters from transcripts, chats, notes, or document pipelines.</li>
+              <li><strong>Detect</strong> — deterministic detectors identify sensitive spans (regex/dict + guarded NER).</li>
+              <li><strong>Redact</strong> — spans are replaced with normalized placeholders (or optional tenant-scoped synthetic output).</li>
+              <li><strong>Leak-check</strong> — posthoc gate validates anonymized output; can fail closed.</li>
+              <li><strong>Attestation</strong> — emit metadata-only provenance + optional signed JWS token.</li>
+              <li><strong>Output</strong> — return redacted text + gate result + evidence metadata to your pipeline.</li>
             </ol>
 
             <div class="callout">
               <div class="callout-title">Zero-retention boundary</div>
               <p class="callout-body">
-                Processing is performed in-memory. Only policy/ruleset metadata and aggregate counters may be retained (mode-dependent).
+                Only in-memory processing. No raw text storage.
                 <strong>Synthector processes content in-memory and does not retain customer content artifacts.</strong>
               </p>
             </div>
           </div>
 
-          <figure class="diagram reveal" aria-label="Pipeline diagram showing Input to Output with a zero-retention boundary over Detect, Redact, and Leak-check">
-            <!-- Inline SVG so it can inherit theme colors -->
-            <svg viewBox="0 0 980 280" role="img" aria-labelledby="diagramTitle diagramDesc">
-              <title id="diagramTitle">Synthector pipeline</title>
-              <desc id="diagramDesc">Input goes through Detect, Redact, Leak-check, Attestation, then Output. A dashed boundary highlights the in-memory zero-retention processing stage.</desc>
+          <figure class="diagram reveal" aria-label="Pipeline diagram with zero-retention boundary">
+            <svg viewBox="0 0 980 260" role="img" aria-labelledby="dTitle dDesc">
+              <title id="dTitle">Synthector pipeline diagram</title>
+              <desc id="dDesc">Input flows through Detect, Redact, Leak-check, Attestation, and Output. The in-memory processing boundary covers Detect through Leak-check.</desc>
 
               <defs>
-                <marker id="arrow" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
-                  <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--diagram-stroke)"></path>
+                <marker id="arr" viewBox="0 0 10 10" refX="9.5" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+                  <path d="M0 0 L10 5 L0 10 Z" fill="var(--stroke)"/>
                 </marker>
-                <filter id="soft" x="-20%" y="-20%" width="140%" height="140%">
-                  <feGaussianBlur stdDeviation="10" />
-                </filter>
               </defs>
 
-              <!-- glow accent -->
-              <circle cx="190" cy="50" r="38" fill="var(--accent)" opacity="0.22" filter="url(#soft)"></circle>
-              <circle cx="770" cy="230" r="44" fill="var(--accent)" opacity="0.16" filter="url(#soft)"></circle>
-
-              <!-- boundary -->
-              <rect x="250" y="52" width="420" height="150" rx="14"
-                    fill="none"
-                    stroke="var(--diagram-stroke)"
-                    stroke-opacity="0.7"
-                    stroke-width="2"
-                    stroke-dasharray="8 8"></rect>
-              <text x="262" y="42" fill="var(--diagram-text-muted)" font-family="var(--font-mono)" font-size="13">
+              <rect x="250" y="42" width="420" height="140" rx="14"
+                fill="none" stroke="var(--stroke)" stroke-opacity="0.75" stroke-width="2" stroke-dasharray="8 8"/>
+              <text x="262" y="32" fill="var(--muted)" font-family="var(--mono)" font-size="13">
                 Zero-retention boundary (in-memory)
               </text>
 
-              <!-- nodes -->
-              <g font-family="var(--font-sans)" font-size="15" fill="var(--diagram-text)">
-                <!-- Input -->
-                <rect x="40" y="96" width="140" height="64" rx="12" fill="var(--diagram-node)" stroke="var(--diagram-stroke)" stroke-width="2"></rect>
-                <text x="110" y="132" text-anchor="middle" font-weight="600">Input</text>
+              <g font-family="var(--sans)" font-size="15" fill="var(--text)">
+                <g>
+                  <rect x="40" y="92" width="140" height="64" rx="14" fill="var(--node)" stroke="var(--stroke)" stroke-width="2"/>
+                  <text x="110" y="130" text-anchor="middle" font-weight="600">Input</text>
+                </g>
 
-                <!-- Detect -->
-                <rect x="270" y="78" width="140" height="64" rx="12" fill="var(--diagram-node)" stroke="var(--diagram-stroke)" stroke-width="2"></rect>
-                <text x="340" y="114" text-anchor="middle" font-weight="600">Detect</text>
-                <text x="340" y="134" text-anchor="middle" fill="var(--diagram-text-muted)" font-size="12">regex/dict + guarded NER</text>
+                <g>
+                  <rect x="270" y="74" width="140" height="64" rx="14" fill="var(--node)" stroke="var(--stroke)" stroke-width="2"/>
+                  <text x="340" y="112" text-anchor="middle" font-weight="600">Detect</text>
+                  <text x="340" y="132" text-anchor="middle" fill="var(--muted)" font-size="12">regex/dict + guarded NER</text>
+                </g>
 
-                <!-- Redact -->
-                <rect x="440" y="78" width="140" height="64" rx="12" fill="var(--diagram-node)" stroke="var(--diagram-stroke)" stroke-width="2"></rect>
-                <text x="510" y="114" text-anchor="middle" font-weight="600">Redact</text>
-                <text x="510" y="134" text-anchor="middle" fill="var(--diagram-text-muted)" font-size="12">placeholders / optional synthetic</text>
+                <g>
+                  <rect x="440" y="74" width="140" height="64" rx="14" fill="var(--node)" stroke="var(--stroke)" stroke-width="2"/>
+                  <text x="510" y="112" text-anchor="middle" font-weight="600">Redact</text>
+                  <text x="510" y="132" text-anchor="middle" fill="var(--muted)" font-size="12">placeholders / optional synthetic</text>
+                </g>
 
-                <!-- Leak-check -->
-                <rect x="610" y="78" width="140" height="64" rx="12" fill="var(--diagram-node)" stroke="var(--diagram-stroke)" stroke-width="2"></rect>
-                <text x="680" y="114" text-anchor="middle" font-weight="600">Leak-check</text>
-                <text x="680" y="134" text-anchor="middle" fill="var(--diagram-text-muted)" font-size="12">posthoc gate (anonymized only)</text>
+                <g>
+                  <rect x="610" y="74" width="140" height="64" rx="14" fill="var(--node)" stroke="var(--stroke)" stroke-width="2"/>
+                  <text x="680" y="112" text-anchor="middle" font-weight="600">Leak-check</text>
+                  <text x="680" y="132" text-anchor="middle" fill="var(--muted)" font-size="12">posthoc (anonymized only)</text>
+                </g>
 
-                <!-- Attestation -->
-                <rect x="760" y="96" width="170" height="64" rx="12" fill="var(--diagram-node)" stroke="var(--diagram-stroke)" stroke-width="2"></rect>
-                <text x="845" y="132" text-anchor="middle" font-weight="600">Attestation</text>
+                <g>
+                  <rect x="760" y="92" width="170" height="64" rx="14" fill="var(--node)" stroke="var(--stroke)" stroke-width="2"/>
+                  <text x="845" y="130" text-anchor="middle" font-weight="600">Attestation</text>
+                </g>
 
-                <!-- Output -->
-                <rect x="760" y="184" width="170" height="64" rx="12" fill="var(--diagram-node)" stroke="var(--diagram-stroke)" stroke-width="2"></rect>
-                <text x="845" y="220" text-anchor="middle" font-weight="600">Output</text>
-                <text x="845" y="240" text-anchor="middle" fill="var(--diagram-text-muted)" font-size="12">redacted text + metadata</text>
+                <g>
+                  <rect x="760" y="176" width="170" height="64" rx="14" fill="var(--node)" stroke="var(--stroke)" stroke-width="2"/>
+                  <text x="845" y="214" text-anchor="middle" font-weight="600">Output</text>
+                  <text x="845" y="234" text-anchor="middle" fill="var(--muted)" font-size="12">redacted text + metadata</text>
+                </g>
               </g>
 
-              <!-- arrows -->
-              <g stroke="var(--diagram-stroke)" stroke-width="2.2" fill="none" marker-end="url(#arrow)">
-                <path d="M180 128 H260"></path>
-                <path d="M410 110 H430"></path>
-                <path d="M580 110 H600"></path>
-                <path d="M750 128 H760"></path>
-                <path d="M845 160 V176" marker-end="url(#arrow)"></path>
-              </g>
-
-              <!-- callout -->
-              <g>
-                <path d="M470 210 C520 250, 620 258, 690 218" fill="none" stroke="var(--diagram-stroke)" stroke-opacity="0.65" stroke-width="2" stroke-dasharray="6 6"></path>
-                <text x="500" y="268" fill="var(--diagram-text-muted)" font-family="var(--font-mono)" font-size="13">
-                  Content artifacts are not persisted
-                </text>
+              <g stroke="var(--stroke)" stroke-width="2.2" fill="none" marker-end="url(#arr)">
+                <path d="M180 124 H260"/>
+                <path d="M410 106 H430"/>
+                <path d="M580 106 H600"/>
+                <path d="M750 124 H760"/>
+                <path d="M845 156 V168"/>
               </g>
             </svg>
 
             <figcaption class="muted">
-              The leak-gate validates the <em>anonymized output</em> before it leaves the boundary; policy/ruleset
-              identity is carried via metadata (optionally signed).
+              Gate evaluation occurs on anonymized output before leaving the boundary; evidence is metadata-only.
             </figcaption>
           </figure>
         </div>
@@ -435,50 +374,30 @@
     <section id="determinism" class="section">
       <div class="container">
         <header class="section-head reveal">
-          <h2>Why deterministic matters</h2>
+          <h2 class="h2">Why deterministic matters</h2>
           <p class="lead">
-            Privacy boundaries fail when they’re probabilistic. Determinism gives you reproducible outputs,
-            inspectable change control, and predictable failure modes.
+            Determinism provides reproducibility, auditability, and predictable failure modes—reducing “surprise behavior”
+            at the privacy boundary.
           </p>
         </header>
 
-        <div class="two-col">
+        <div class="grid two-col">
           <div class="reveal">
-            <ul class="bullets bullets-big">
-              <li>
-                <strong>Reproducibility:</strong> the same input yields the same redacted output given the same ruleset.
-                This enables replay, incident forensics, and regression testing.
-              </li>
-              <li>
-                <strong>Auditability:</strong> policy + ruleset identifiers (and hashes) make change control explicit.
-                Evidence is attached to output via provenance metadata and optional JWS attestation.
-              </li>
-              <li>
-                <strong>Predictable failure modes:</strong> leak-gate semantics can fail closed, preventing silent drift
-                or “partial” redaction from flowing downstream.
-              </li>
-              <li>
-                <strong>Less LLM surprise behavior:</strong> privacy enforcement is not a generative rewrite step.
-                You can still use LLMs downstream—after the boundary.
-              </li>
+            <ul class="bullets big">
+              <li><strong>Reproducibility:</strong> same input + same ruleset ⇒ same output. Enables replay and forensics.</li>
+              <li><strong>Auditability:</strong> policy + ruleset identity (hash) attaches change control to every output.</li>
+              <li><strong>Predictable failure modes:</strong> leak-gate can fail closed and stop the line explicitly.</li>
+              <li><strong>Less LLM surprise behavior:</strong> privacy enforcement is not a generative rewrite step.</li>
             </ul>
           </div>
 
           <div class="reveal">
-            <div class="callout">
-              <div class="callout-title">Design intent</div>
-              <p class="callout-body">
-                Synthector is built for teams who need deterministic guarantees at the ingestion boundary:
-                stable transforms, explicit gating, and verification metadata—without storing content.
-              </p>
-            </div>
-
-            <div class="code-wrap" data-copy-surface>
-              <div class="code-head">
-                <span class="code-title">Fail-closed gate outcome (illustrative)</span>
+            <div class="codebox" data-copy-surface>
+              <div class="codebox-head">
+                <span class="codebox-title">Fail-closed example (illustrative)</span>
                 <button class="copy-btn" type="button" aria-label="Copy fail-closed example">Copy</button>
               </div>
-              <pre class="code-block"><code>{
+              <pre class="code"><code>{
   "gate": {
     "mode": "fail_closed",
     "result": "block",
@@ -488,19 +407,25 @@
   "returned": "metadata_only"
 }</code></pre>
             </div>
+
+            <div class="callout">
+              <div class="callout-title">Operational intent</div>
+              <p class="callout-body">
+                Deterministic boundary + explicit gate semantics = predictable control surface for regulated pipelines.
+              </p>
+            </div>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- SECURITY & RETENTION -->
+    <!-- SECURITY -->
     <section id="security" class="section section-alt">
       <div class="container">
         <header class="section-head reveal">
-          <h2>Security & retention posture</h2>
+          <h2 class="h2">Security & retention posture</h2>
           <p class="lead">
-            Security posture starts with data minimization. Synthector is designed to avoid becoming a content
-            storage system while still supporting audits and operational health.
+            Synthector is designed to avoid becoming a content storage system while supporting verification and operational health.
           </p>
         </header>
 
@@ -512,7 +437,7 @@
           </p>
         </div>
 
-        <div class="table-wrap reveal" role="region" aria-label="Retention matrix" tabindex="0">
+        <div class="tablewrap reveal" role="region" aria-label="Retention matrix" tabindex="0">
           <table class="matrix">
             <thead>
               <tr>
@@ -524,150 +449,104 @@
             <tbody>
               <tr>
                 <td><strong>Raw text/audio</strong></td>
-                <td class="mono"><span class="status status-no">never stored</span></td>
+                <td><span class="status no">never stored</span></td>
                 <td>Processed in-memory; not written to disk by Synthector.</td>
               </tr>
               <tr>
                 <td><strong>Redacted text/audio</strong></td>
-                <td class="mono"><span class="status status-no">never stored</span></td>
+                <td><span class="status no">never stored</span></td>
                 <td>Returned to caller; not persisted as an artifact.</td>
               </tr>
               <tr>
                 <td><strong>Provenance</strong></td>
-                <td class="mono"><span class="status status-warn">metadata only, TTL-limited</span></td>
+                <td><span class="status warn">metadata only, TTL-limited</span></td>
                 <td>Policy ID, ruleset hash, timestamps, gate outcome; no content.</td>
               </tr>
               <tr>
                 <td><strong>Logs</strong></td>
-                <td class="mono"><span class="status status-warn">scrubbed, retention-limited</span></td>
+                <td><span class="status warn">scrubbed, retention-limited</span></td>
                 <td>Operational logs designed to avoid content; retention is environment/policy controlled.</td>
               </tr>
               <tr>
                 <td><strong>Aggregates</strong></td>
-                <td class="mono"><span class="status status-ok">numeric/categorical only</span></td>
+                <td><span class="status ok">numeric/categorical only</span></td>
                 <td>
                   Tenant-provisioned mode:
                   <code>billing_only</code>, <code>health_kmin</code>, <code>off</code>.
-                  No raw spans; no tokenized content.
                 </td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <div class="two-col">
-          <div class="reveal">
-            <h3 class="h3">Operational semantics</h3>
-            <ul class="bullets bullets-big">
-              <li><strong>Fail-closed where required:</strong> leak-gate can block output rather than “best effort”.</li>
-              <li><strong>Tenant isolation:</strong> policies/rulesets/telemetry are scoped per tenant boundary.</li>
-              <li><strong>Metadata-only evidence:</strong> attestations and provenance are designed for audits without content retention.</li>
-            </ul>
-            <p class="muted">
-              Note: This page does not claim SOC 2 / ISO certifications. Synthector is positioned to support your compliance program
-              with deterministic controls and verifiable evidence.
-            </p>
-          </div>
-
-          <div class="reveal">
-            <div class="callout">
-              <div class="callout-title">What Synthector is not</div>
-              <p class="callout-body">
-                Not a “prompt trick,” not an opaque generative rewrite, and not a transcript storage platform.
-                It is an infrastructure layer that enforces a deterministic privacy boundary before AI ingestion.
-              </p>
-            </div>
-
-            <div class="code-wrap" data-copy-surface>
-              <div class="code-head">
-                <span class="code-title">Aggregate telemetry (illustrative)</span>
-                <button class="copy-btn" type="button" aria-label="Copy aggregates example">Copy</button>
-              </div>
-              <pre class="code-block"><code>{
-  "mode": "health_kmin",
-  "counters": {
-    "pii_spans_redacted": 18231,
-    "gate_block_rate": 0.0017,
-    "top_categories": ["EMAIL", "PHONE", "ACCOUNT_ID"]
-  },
-  "content": "not_collected"
-}</code></pre>
-            </div>
-          </div>
-        </div>
+        <p class="fine reveal">
+          No certification claims are made on this site (SOC 2 / ISO). The posture above describes design intent and operating principles.
+        </p>
       </div>
     </section>
 
-    <!-- PROOF ARTIFACTS -->
+    <!-- PROOF -->
     <section id="proof" class="section">
       <div class="container">
         <header class="section-head reveal">
-          <h2>Proof artifacts</h2>
-          <p class="lead">
-            Outcome-level proofs that privacy controls are behaving as deployed—without exposing proprietary detection rules.
-          </p>
+          <h2 class="h2">Proof artifacts</h2>
+          <p class="lead">Outcome-level evidence that controls behave as deployed—without exposing proprietary detection rules.</p>
         </header>
 
-        <div class="card-grid card-grid-3">
+        <div class="grid three">
           <article class="card reveal">
-            <div class="card-top">
-              <h3>Regression suite</h3>
-              <span class="pill">deployed endpoint</span>
+            <div class="card-top tight">
+              <h3 class="h3">Regression suite</h3>
+              <span class="pill">deployed endpoints</span>
             </div>
             <p><strong>Regression suite runs against deployed endpoints</strong> to detect drift and enforce invariants.</p>
-
-            <div class="code-wrap" data-copy-surface>
-              <div class="code-head">
-                <span class="code-title">Suite summary (illustrative)</span>
+            <div class="codebox" data-copy-surface>
+              <div class="codebox-head">
+                <span class="codebox-title">Suite summary (illustrative)</span>
                 <button class="copy-btn" type="button" aria-label="Copy regression summary">Copy</button>
               </div>
-              <pre class="code-block"><code>{
+              <pre class="code"><code>{
   "suite": "prod-smoke",
   "passed": 1542,
   "failed": 0,
   "policy_id": "prod-pii-v1",
-  "ruleset_sha256": "c83e…",
-  "run_id": "rs_9b2d…"
+  "ruleset_sha256": "c83e…"
 }</code></pre>
             </div>
           </article>
 
           <article class="card reveal">
-            <div class="card-top">
-              <h3>Leak-gate semantics</h3>
+            <div class="card-top tight">
+              <h3 class="h3">Leak-gate semantics</h3>
               <span class="pill">fail-closed tests</span>
             </div>
-            <p><strong>Leak-gate semantics verified (fail-closed tests)</strong> so blocked outputs are explicit and auditable.</p>
-
-            <div class="code-wrap" data-copy-surface>
-              <div class="code-head">
-                <span class="code-title">Gate verification (illustrative)</span>
-                <button class="copy-btn" type="button" aria-label="Copy leak gate example">Copy</button>
+            <p><strong>Leak-gate semantics verified (fail-closed tests)</strong> so blocks are explicit and auditable.</p>
+            <div class="codebox" data-copy-surface>
+              <div class="codebox-head">
+                <span class="codebox-title">Gate verification (illustrative)</span>
+                <button class="copy-btn" type="button" aria-label="Copy gate verification">Copy</button>
               </div>
-              <pre class="code-block"><code>{
+              <pre class="code"><code>{
   "test": "fail_closed_blocks_on_residual_pattern",
-  "input_kind": "synthetic_fixture",
   "gate_result": "block",
-  "reason": "residual_sensitive_pattern",
   "checked_on": "anonymized_output_only"
 }</code></pre>
             </div>
           </article>
 
           <article class="card reveal">
-            <div class="card-top">
-              <h3>Attestation token</h3>
+            <div class="card-top tight">
+              <h3 class="h3">Attestation token</h3>
               <span class="pill">JWS</span>
             </div>
             <p><strong>Signed attestation token (JWS) available</strong> for verification and downstream policy enforcement.</p>
-
-            <div class="code-wrap" data-copy-surface>
-              <div class="code-head">
-                <span class="code-title">JWS (truncated; illustrative)</span>
-                <button class="copy-btn" type="button" aria-label="Copy attestation token example">Copy</button>
+            <div class="codebox" data-copy-surface>
+              <div class="codebox-head">
+                <span class="codebox-title">JWS (truncated; illustrative)</span>
+                <button class="copy-btn" type="button" aria-label="Copy JWS example">Copy</button>
               </div>
-              <pre class="code-block"><code>eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.
-eyJpc3MiOiJzeW50aGVjdG9yIiwicG9saWN5X2lkIjoicHJvZC1waWktdjEiLCJydWxlc2V0X3NoYTI1NiI6ImM4M2UiLCJnYXRlIjp7InJlc3VsdCI6InBhc3MiLCJtb2RlIjoiZmFpbF9jbG9zZWQifSwiZXZpZGVuY2UiOnsic3Bhbl9jb3VudHMiOnsiRU1BSUwiOjMsIlBIT05FIjoyfX19fQ.
+              <pre class="code"><code>eyJhbGciOiJFZERTQSIsInR5cCI6IkpXVCJ9.
+eyJpc3MiOiJzeW50aGVjdG9yIiwicG9saWN5X2lkIjoicHJvZC1waWktdjEiLCJydWxlc2V0X3NoYTI1NiI6ImM4M2UuLi4ifQ.
 &lt;signature&gt;</code></pre>
             </div>
           </article>
@@ -679,34 +558,31 @@ eyJpc3MiOiJzeW50aGVjdG9yIiwicG9saWN5X2lkIjoicHJvZC1waWktdjEiLCJydWxlc2V0X3NoYTI1
     <section id="partners" class="section section-alt">
       <div class="container">
         <header class="section-head reveal">
-          <h2>Partners & embedding</h2>
+          <h2 class="h2">Partners & embedding</h2>
           <p class="lead">
-            Synthector is designed to embed cleanly as an infrastructure layer—upstream of storage, analytics, and LLMs.
+            Synthector is designed to embed as infrastructure—upstream of storage, analytics, vectorization, and LLM ingestion.
           </p>
         </header>
 
-        <div class="two-col">
+        <div class="grid two-col">
           <div class="reveal">
-            <h3 class="h3">Target integration points</h3>
-            <ul class="bullets bullets-big">
-              <li><strong>Transcript providers</strong> (call center, meeting, voice analytics)</li>
-              <li><strong>Meeting recording platforms</strong> (pre-indexing / pre-LLM summarization)</li>
-              <li><strong>Analytics platforms</strong> (before warehousing / vectorization / enrichment)</li>
-              <li><strong>Agentic workflow vendors</strong> (policy-gated tool and memory ingestion)</li>
+            <h3 class="h3">Integration targets</h3>
+            <ul class="bullets big">
+              <li><strong>Transcript providers</strong> (call centers, finance, healthcare, BPO)</li>
+              <li><strong>Meeting recording platforms</strong> (pre-indexing / pre-summarization)</li>
+              <li><strong>Analytics platforms</strong> (before warehousing / enrichment)</li>
+              <li><strong>Agentic workflow vendors</strong> (policy-gated tool ingestion)</li>
             </ul>
 
             <div class="callout">
               <div class="callout-title">Positioning</div>
-              <p class="callout-body">
-                <strong>Synthector as infrastructure layer.</strong> Insert once, inherit deterministic privacy controls across
-                downstream AI features and partner ecosystems.
-              </p>
+              <p class="callout-body"><strong>Synthector as infrastructure layer.</strong> Insert once; inherit controls everywhere downstream.</p>
             </div>
           </div>
 
           <div class="reveal">
-            <h3 class="h3">Typical pipeline placements</h3>
-            <div class="pill-grid" aria-label="Pipeline placements">
+            <h3 class="h3">Placement patterns</h3>
+            <div class="pillgrid" aria-label="Placement patterns">
               <span class="pill">before LLM ingestion</span>
               <span class="pill">before vector DB writes</span>
               <span class="pill">before data lake/warehouse</span>
@@ -715,14 +591,12 @@ eyJpc3MiOiJzeW50aGVjdG9yIiwicG9saWN5X2lkIjoicHJvZC1waWktdjEiLCJydWxlc2V0X3NoYTI1
               <span class="pill">before long-term storage</span>
             </div>
 
-            <div class="code-wrap" data-copy-surface>
-              <div class="code-head">
-                <span class="code-title">Embedding contract (illustrative)</span>
-                <button class="copy-btn" type="button" aria-label="Copy embedding contract example">Copy</button>
+            <div class="codebox" data-copy-surface>
+              <div class="codebox-head">
+                <span class="codebox-title">Embedding contract (illustrative)</span>
+                <button class="copy-btn" type="button" aria-label="Copy embedding contract">Copy</button>
               </div>
-              <pre class="code-block"><code>// Caller responsibility: provide text, choose policy, verify attestation.
-// Synthector responsibility: deterministic transform + gate + metadata.
-request = { text, policy_id, tenant_id }
+              <pre class="code"><code>request  = { text, policy_id, tenant_id }
 response = { redacted_text, gate, provenance, attestation_jws? }</code></pre>
             </div>
           </div>
@@ -730,115 +604,66 @@ response = { redacted_text, gate, provenance, attestation_jws? }</code></pre>
       </div>
     </section>
 
-    <!-- TECHNICAL OVERVIEW (one-page section) -->
+    <!-- TECH OVERVIEW -->
     <section id="technical-overview" class="section">
       <div class="container">
         <header class="section-head reveal">
-          <h2>Technical overview</h2>
+          <h2 class="h2">Technical overview</h2>
           <p class="lead">
-            This section is intended for ICT / security / platform engineering teams evaluating Synthector as a
-            deterministic privacy boundary in regulated environments.
+            A one-page technical view for security/platform/compliance teams evaluating Synthector as a deterministic privacy boundary.
           </p>
         </header>
 
-        <div class="tech-grid">
-          <article class="tech-card reveal">
+        <div class="grid tech">
+          <article class="card reveal">
             <h3 class="h3">Architecture</h3>
             <p>
-              Synthector sits in the ingestion path as a transformation layer. It accepts content,
-              applies a deterministic policy/ruleset, and returns transformed output plus verification metadata.
-              Content processing is performed in-memory.
+              Synthector sits in the ingestion path. It accepts content, applies a deterministic policy/ruleset,
+              runs a leak-gate on anonymized output, and returns transformed output plus evidence metadata.
             </p>
             <ul class="bullets">
-              <li>Transform boundary: <strong>detect → redact → leak-check</strong></li>
-              <li>Evidence channel: <strong>provenance + optional JWS attestation</strong></li>
-              <li>Telemetry channel: <strong>aggregate-only counters (mode dependent)</strong></li>
+              <li>Transform boundary: detect → redact → leak-check</li>
+              <li>Evidence channel: provenance + optional JWS attestation</li>
+              <li>Telemetry channel: aggregate-only counters (mode dependent)</li>
             </ul>
           </article>
 
-          <article class="tech-card reveal">
+          <article class="card reveal">
             <h3 class="h3">Policy & rulesets</h3>
             <p>
-              Policies define what must be redacted and what the gate must enforce. Rulesets implement the policy
-              using deterministic detectors (e.g., structured patterns, dictionaries, allowlists/denylists) and
-              guarded entity detection for bounded cases.
+              Policies specify what must be removed and what the gate must enforce. Rulesets implement that policy with deterministic detectors.
+              Ruleset identity is carried as a hash for audit/replay.
             </p>
             <ul class="bullets">
-              <li>Explicit <code>policy_id</code> + ruleset versioning</li>
-              <li>Ruleset identity carried as hash for audit/replay</li>
-              <li>Tenant-scoped policy separation</li>
+              <li>Explicit <code>policy_id</code> + versioning</li>
+              <li>Ruleset hash to make change-control explicit</li>
+              <li>Tenant-scoped separation</li>
             </ul>
           </article>
 
-          <article class="tech-card reveal">
+          <article class="card reveal">
             <h3 class="h3">Leak-gate semantics</h3>
             <p>
-              The leak-gate is a verification step that evaluates only the anonymized output. This reduces
-              leakage pathways and gives you explicit “stop the line” behavior in sensitive environments.
+              The gate verifies only anonymized output, reducing leakage pathways and enabling explicit stop-the-line behavior.
             </p>
             <ul class="bullets">
               <li><strong>Posthoc leak check runs on anonymized output only.</strong></li>
-              <li>Configurable actions: pass, block, or quarantine (metadata-only)</li>
-              <li>Fail-closed option for strict pipelines</li>
+              <li>Actions: pass / block / quarantine (metadata-only)</li>
+              <li>Fail-closed configurable</li>
             </ul>
           </article>
 
-          <article class="tech-card reveal">
-            <h3 class="h3">Attestation & provenance</h3>
-            <p>
-              Provenance is metadata-only and can be accompanied by a signed attestation token (JWS). Downstream
-              systems can verify that content passed through a specific policy/ruleset and observe gating outcomes.
-            </p>
-
-            <div class="code-wrap" data-copy-surface>
-              <div class="code-head">
-                <span class="code-title">Attestation claims (illustrative)</span>
-                <button class="copy-btn" type="button" aria-label="Copy attestation claims example">Copy</button>
-              </div>
-              <pre class="code-block"><code>{
-  "iss": "synthector",
-  "policy_id": "prod-pii-v1",
-  "ruleset_sha256": "c83e…",
-  "gate": { "mode": "fail_closed", "result": "pass" },
-  "counters": { "EMAIL": 3, "PHONE": 2 },
-  "ts_utc": "2026-02-14T00:00:00Z"
-}</code></pre>
-            </div>
-          </article>
-
-          <article class="tech-card reveal">
+          <article class="card reveal">
             <h3 class="h3">Retention & telemetry</h3>
             <p>
-              The retention posture is designed to minimize risk surface: no raw or redacted content artifacts are stored.
-              Telemetry is limited to numeric/categorical aggregates when enabled.
+              Raw and redacted artifacts are not persisted. Telemetry is aggregate-only when enabled.
             </p>
             <ul class="bullets">
               <li><strong>Zero retention by default.</strong></li>
-              <li>Aggregate modes: <code>billing_only</code>, <code>health_kmin</code>, <code>off</code></li>
+              <li>Modes: <code>billing_only</code>, <code>health_kmin</code>, <code>off</code></li>
               <li>Provenance is metadata-only and TTL-limited</li>
             </ul>
           </article>
-
-          <article class="tech-card reveal">
-            <h3 class="h3">Failure modes & controls</h3>
-            <p>
-              Deterministic transforms allow predictable failure handling. When the system can’t meet policy
-              requirements, it can fail closed and return metadata describing the reason.
-            </p>
-            <ul class="bullets">
-              <li>Block output when residual patterns are detected (strict mode)</li>
-              <li>Regression tests to detect drift in deployed behavior</li>
-              <li>Outcome-level proofs without disclosing detection internals</li>
-            </ul>
-          </article>
-        </div>
-
-        <div class="callout reveal">
-          <div class="callout-title">Roadmap note</div>
-          <p class="callout-body">
-            Audio support (redacted/revoiced) is a future extension. Current positioning is focused on text pipelines
-            and transcript/meeting intelligence embedding.
-          </p>
         </div>
       </div>
     </section>
@@ -847,30 +672,21 @@ response = { redacted_text, gate, provenance, attestation_jws? }</code></pre>
     <section id="faq" class="section section-alt">
       <div class="container">
         <header class="section-head reveal">
-          <h2>FAQ</h2>
-          <p class="lead">Short answers, technical defaults.</p>
+          <h2 class="h2">FAQ</h2>
+          <p class="lead">Short, technical defaults.</p>
         </header>
 
         <div class="faq reveal">
           <details>
-            <summary>Is this “anonymization” or “pseudonymization”?</summary>
-            <div class="faq-body">
-              It’s a deterministic transformation layer. Depending on policy, outputs may be redaction-style placeholders
-              or tenant-scoped synthetic replacements. Treat outputs as potentially sensitive unless your policy explicitly
-              enforces stronger guarantees for your use case.
-            </div>
-          </details>
-
-          <details>
             <summary>Do you store transcripts, raw text, or redacted text?</summary>
             <div class="faq-body">
               No. <strong>Synthector processes content in-memory and does not retain customer content artifacts.</strong>
-              Raw and redacted text/audio are not persisted. Optional telemetry is aggregate-only (numeric/categorical) and mode-controlled.
+              Raw and redacted text/audio are never stored. Optional telemetry is aggregate-only (numeric/categorical) and mode-controlled.
             </div>
           </details>
 
           <details>
-            <summary>What does “leak-gate” mean in practice?</summary>
+            <summary>What does “leak-gate” mean?</summary>
             <div class="faq-body">
               It’s a verification pass that checks the anonymized output for residual disallowed patterns and can fail closed (block).
               <strong>Posthoc leak check runs on anonymized output only.</strong>
@@ -878,10 +694,9 @@ response = { redacted_text, gate, provenance, attestation_jws? }</code></pre>
           </details>
 
           <details>
-            <summary>How do partners embed Synthector?</summary>
+            <summary>Do you claim SOC 2 / ISO certifications?</summary>
             <div class="faq-body">
-              Insert Synthector upstream of ingestion points (LLMs, vector DBs, warehouses). Return redacted output plus provenance/attestation.
-              The goal is to make privacy enforcement an infrastructure concern rather than a per-feature prompt or heuristic.
+              No certification claims are made on this site. The goal is deterministic, inspectable controls that support your compliance program.
             </div>
           </details>
         </div>
@@ -892,16 +707,15 @@ response = { redacted_text, gate, provenance, attestation_jws? }</code></pre>
     <section id="request-pilot" class="section">
       <div class="container">
         <header class="section-head reveal">
-          <h2>Request pilot access</h2>
+          <h2 class="h2">Request pilot access</h2>
           <p class="lead">
-            Send a short note with your environment and integration target. This site is static—submitting the form will
-            open an email draft via <code>mailto:</code>.
+            Static only: this form opens an email draft via <code>mailto:</code>.
           </p>
         </header>
 
-        <div class="cta-grid">
+        <div class="grid cta-grid">
           <form class="form reveal" id="pilotForm" novalidate>
-            <div class="field-row">
+            <div class="form-row">
               <div class="field">
                 <label for="name">Name</label>
                 <input id="name" name="name" autocomplete="name" placeholder="Your name" />
@@ -912,14 +726,14 @@ response = { redacted_text, gate, provenance, attestation_jws? }</code></pre>
               </div>
             </div>
 
-            <div class="field-row">
+            <div class="form-row">
               <div class="field">
                 <label for="company">Company</label>
                 <input id="company" name="company" autocomplete="organization" placeholder="Org / team" />
               </div>
               <div class="field">
                 <label for="system">What system are you integrating with?</label>
-                <input id="system" name="system" placeholder="e.g., transcript provider, meeting platform, data lake, LLM gateway" />
+                <input id="system" name="system" placeholder="transcript provider, meeting platform, data lake, LLM gateway…" />
               </div>
             </div>
 
@@ -928,42 +742,33 @@ response = { redacted_text, gate, provenance, attestation_jws? }</code></pre>
               <textarea id="notes" name="notes" rows="5" placeholder="Constraints (retention, region), volume, policy needs, partner context…"></textarea>
             </div>
 
-            <div class="form-actions">
+            <div class="actions">
               <button class="btn btn-primary" type="submit">Compose email</button>
-              <a class="btn btn-secondary" href="mailto:Synthector@gmail.com?subject=Synthector%20pilot%20request&body=Hi%20Christopher%2C%0A%0AI%27d%20like%20to%20request%20pilot%20access%20to%20Synthector.%0A%0AName%3A%0ACompany%3A%0AEmail%3A%0AIntegrating%20with%3A%0A%0AContext%3A%0A" aria-label="Email Synthector directly">
+              <a class="btn btn-secondary"
+                 href="mailto:Synthector@gmail.com?subject=Synthector%20pilot%20request&body=Hi%20Christopher%2C%0A%0AI%27d%20like%20to%20request%20pilot%20access%20to%20Synthector.%0A%0AName%3A%0ACompany%3A%0AEmail%3A%0AIntegrating%20with%3A%0A%0AContext%3A%0A">
                 Email directly
               </a>
             </div>
 
-            <p class="muted" id="mailtoFallback" hidden>
-              If your browser blocks automatic email drafts, email <a href="mailto:Synthector@gmail.com">Synthector@gmail.com</a>.
+            <p class="fine" id="mailtoFallback" hidden>
+              If your browser blocks automatic drafts, email <a href="mailto:Synthector@gmail.com">Synthector@gmail.com</a>.
             </p>
           </form>
 
-          <aside class="cta-aside reveal" aria-label="Contact details">
-            <div class="cta-card">
+          <aside class="sidecard reveal" aria-label="Contact details">
+            <div class="sidecard-inner">
               <h3 class="h3">Contact</h3>
               <p class="muted">Sole proprietor (pre-incorporation)</p>
               <dl class="dl">
-                <div>
-                  <dt>Email</dt>
-                  <dd><a href="mailto:Synthector@gmail.com">Synthector@gmail.com</a></dd>
-                </div>
-                <div>
-                  <dt>Domain</dt>
-                  <dd><a href="https://Synthector.com/">Synthector.com</a></dd>
-                </div>
-                <div>
-                  <dt>Name</dt>
-                  <dd>Christopher R. Runowski</dd>
-                </div>
+                <div><dt>Email</dt><dd><a href="mailto:Synthector@gmail.com">Synthector@gmail.com</a></dd></div>
+                <div><dt>Domain</dt><dd><a href="https://Synthector.com/">Synthector.com</a></dd></div>
+                <div><dt>Name</dt><dd>Christopher R. Runowski</dd></div>
               </dl>
 
               <div class="callout">
-                <div class="callout-title">Evaluation-friendly</div>
+                <div class="callout-title">Buyer expectation</div>
                 <p class="callout-body">
-                  Expect technical depth: deterministic transforms, explicit retention posture, and evidence artifacts.
-                  No certification claims on this site.
+                  Deterministic controls, explicit retention posture, and outcome-level evidence—without certification claims.
                 </p>
               </div>
             </div>
@@ -972,23 +777,15 @@ response = { redacted_text, gate, provenance, attestation_jws? }</code></pre>
       </div>
     </section>
 
-    <!-- FOOTER + POLICY SECTIONS -->
-    <footer class="site-footer">
-      <div class="container footer-grid">
-        <div>
-          <div class="footer-brand">
-            <img src="assets/logo-mark.svg" alt="" width="26" height="26" decoding="async" />
-            <div>
-              <div class="footer-name">Synthector</div>
-              <div class="footer-sub">Deterministic privacy boundary for AI ingestion</div>
-            </div>
+    <!-- FOOTER -->
+    <footer class="footer">
+      <div class="container footer-top">
+        <div class="footer-brand">
+          <img src="assets/logo-mark.svg" alt="" width="26" height="26" decoding="async" />
+          <div>
+            <div class="footer-name">Synthector</div>
+            <div class="footer-sub">Deterministic privacy redaction + leak-gate for AI ingestion</div>
           </div>
-
-          <p class="muted footer-meta">
-            Contact: <a href="mailto:Synthector@gmail.com">Synthector@gmail.com</a><br />
-            Christopher R. Runowski<br />
-            <span>© 2026 Christopher R. Runowski</span>
-          </p>
         </div>
 
         <div class="footer-links" aria-label="Footer links">
@@ -998,21 +795,25 @@ response = { redacted_text, gate, provenance, attestation_jws? }</code></pre>
         </div>
       </div>
 
-      <div class="container footer-notes">
-        <section id="privacy-statement" class="policy-block" aria-label="Privacy statement">
-          <h2 class="sr-only">Privacy statement</h2>
+      <div class="container footer-bottom">
+        <p class="muted">
+          Contact: <a href="mailto:Synthector@gmail.com">Synthector@gmail.com</a><br />
+          Christopher R. Runowski<br />
+          © 2026 Christopher R. Runowski
+        </p>
+
+        <section id="privacy-statement" class="policy" aria-label="Privacy statement">
           <p class="muted">
             <strong>Privacy statement:</strong> Synthector processes content in-memory and does not retain customer content artifacts.
             Raw and redacted text/audio are never stored. Where enabled, telemetry is limited to numeric/categorical aggregates and
-            policy/ruleset metadata (mode-dependent). For questions, contact <a href="mailto:Synthector@gmail.com">Synthector@gmail.com</a>.
+            policy/ruleset metadata (mode-dependent).
           </p>
         </section>
 
-        <section id="security-notes" class="policy-block" aria-label="Security notes">
-          <h2 class="sr-only">Security notes</h2>
+        <section id="security-notes" class="policy" aria-label="Security notes">
           <p class="muted">
             <strong>Security notes:</strong> Treat redacted outputs as potentially sensitive unless your policy explicitly enforces stronger guarantees.
-            Use least-privilege integration, segregate tenants, and verify provenance/attestation where required. This site makes no certification claims.
+            Use least-privilege integration and verify provenance/attestation where required. No certification claims are made on this site.
           </p>
         </section>
       </div>
@@ -1021,7 +822,7 @@ response = { redacted_text, gate, provenance, attestation_jws? }</code></pre>
 
   <noscript>
     <div class="noscript">
-      JavaScript is disabled. Theme toggle, copy buttons, and the mailto form enhancer won’t run, but all content remains accessible.
+      JavaScript is disabled. Theme toggle, copy buttons, and the mailto form helper won’t run, but all content remains accessible.
     </div>
   </noscript>
 </body>
