@@ -1,14 +1,15 @@
-/* Synthector — minimal JS:
+/* Synthector v2 — minimal JS:
    - theme toggle (persisted)
-   - intersection reveal
-   - copy buttons for code blocks
-   - mailto composer for pilot form
+   - reveal on scroll
+   - copy buttons
+   - mailto composer
+   - close mobile menu after click
 */
 
 (function () {
   const root = document.documentElement;
 
-  // ---------- Theme ----------
+  // ---- Theme toggle ----
   const themeToggle = document.getElementById("themeToggle");
   const THEME_KEY = "synthector_theme";
 
@@ -16,56 +17,49 @@
     root.setAttribute("data-theme", theme);
     try { localStorage.setItem(THEME_KEY, theme); } catch (_) {}
 
-    // Update button aria label
     if (themeToggle) {
       const isLight = theme === "light";
       themeToggle.setAttribute("aria-pressed", String(isLight));
       themeToggle.setAttribute("aria-label", isLight ? "Switch to dark theme" : "Switch to light theme");
     }
 
-    // Update theme-color for mobile browser chrome
     const metaTheme = document.querySelector('meta[name="theme-color"]');
-    if (metaTheme) {
-      metaTheme.setAttribute("content", theme === "light" ? "#F7F8FA" : "#070A0D");
-    }
+    if (metaTheme) metaTheme.setAttribute("content", theme === "light" ? "#F7F8FA" : "#070A0D");
   }
 
-  function getInitialTheme() {
-    // Dark-mode default per requirements
+  function initialTheme() {
     try {
       const stored = localStorage.getItem(THEME_KEY);
       if (stored === "light" || stored === "dark") return stored;
     } catch (_) {}
-    return "dark";
+    return "dark"; // requirement: dark default
   }
 
-  setTheme(getInitialTheme());
+  setTheme(initialTheme());
 
   if (themeToggle) {
     themeToggle.addEventListener("click", () => {
-      const current = root.getAttribute("data-theme") || "dark";
-      setTheme(current === "dark" ? "light" : "dark");
+      const cur = root.getAttribute("data-theme") || "dark";
+      setTheme(cur === "dark" ? "light" : "dark");
     });
   }
 
-  // ---------- Reveal on scroll ----------
+  // ---- Reveal on scroll ----
   const revealEls = Array.from(document.querySelectorAll(".reveal"));
   if (revealEls.length) {
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add("in-view");
-            io.unobserve(e.target);
-          }
+    const io = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (e.isIntersecting) {
+          e.target.classList.add("in");
+          io.unobserve(e.target);
         }
-      },
-      { root: null, threshold: 0.15 }
-    );
-    revealEls.forEach((el) => io.observe(el));
+      }
+    }, { threshold: 0.16 });
+
+    revealEls.forEach(el => io.observe(el));
   }
 
-  // ---------- Copy buttons ----------
+  // ---- Copy buttons ----
   function setCopyState(btn, ok) {
     const original = btn.textContent;
     btn.textContent = ok ? "Copied" : "Copy failed";
@@ -81,9 +75,7 @@
     if (!btn) return;
 
     const wrap = btn.closest("[data-copy-surface]");
-    if (!wrap) return;
-
-    const code = wrap.querySelector("pre code");
+    const code = wrap ? wrap.querySelector("pre code") : null;
     if (!code) return;
 
     const text = code.textContent || "";
@@ -91,7 +83,6 @@
       await navigator.clipboard.writeText(text);
       setCopyState(btn, true);
     } catch (_) {
-      // Fallback: select text
       try {
         const range = document.createRange();
         range.selectNodeContents(code);
@@ -107,7 +98,7 @@
     }
   });
 
-  // ---------- Pilot form -> mailto ----------
+  // ---- Pilot form -> mailto ----
   const form = document.getElementById("pilotForm");
   const fallback = document.getElementById("mailtoFallback");
   const TO = "Synthector@gmail.com";
@@ -128,7 +119,7 @@
       const notes = val("notes");
 
       const subject = "Synthector pilot request";
-      const lines = [
+      const body = [
         "Hi Christopher,",
         "",
         "I'd like to request pilot access to Synthector.",
@@ -141,23 +132,27 @@
         "Context / requirements:",
         notes || "-",
         "",
-        "Thanks,"
-      ];
+        "Thanks,",
+      ].join("\n");
 
-      const body = lines.join("\n");
       const mailto = `mailto:${encodeURIComponent(TO)}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
 
-      // Attempt to open the user's mail client
-      try {
-        window.location.href = mailto;
-      } catch (_) {
+      try { window.location.href = mailto; } catch (_) {
         if (fallback) fallback.hidden = false;
       }
 
-      // If the browser blocks, show fallback note after a short delay
       setTimeout(() => {
         if (fallback) fallback.hidden = false;
       }, 800);
     });
   }
+
+  // ---- Close mobile menu when selecting a link ----
+  document.addEventListener("click", (ev) => {
+    const link = ev.target.closest(".nav-panel a");
+    if (!link) return;
+
+    const details = ev.target.closest("details");
+    if (details && details.open) details.open = false;
+  });
 })();
