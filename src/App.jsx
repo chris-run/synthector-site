@@ -27,12 +27,14 @@ export default function App() {
         }`}
         aria-label="Primary"
       >
-        <div className="max-w-7xl mx-auto px-6 py-5 flex justify-between items-center">
-          <a href="#top" className="flex items-center space-x-3" aria-label="Synthector home">
-            <div className="w-12 h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center glow">
-              <Shield className="w-7 h-7 text-white" />
+        <div className="max-w-7xl mx-auto px-6 py-4 flex flex-wrap gap-3 justify-between items-center">
+          <a href="#top" className="flex items-center space-x-3 min-w-0" aria-label="Synthector home">
+            <div className="w-10 h-10 sm:w-12 sm:h-12 bg-gradient-to-br from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center glow flex-shrink-0">
+              <Shield className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
             </div>
-            <span className="text-2xl font-bold mono tracking-tight text-gray-900">SYNTHECTOR</span>
+            <span className="text-xl sm:text-2xl font-bold mono tracking-tight text-gray-900 truncate">
+              SYNTHECTOR
+            </span>
           </a>
 
           <div className="hidden md:flex space-x-8 mono text-sm font-semibold text-gray-700">
@@ -43,7 +45,7 @@ export default function App() {
 
           <a
             href={mailto('Synthector Pilot Request')}
-            className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-xl font-bold transition-all hover:scale-105 mono text-sm shadow-lg shadow-blue-600/30"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold transition-all hover:scale-105 mono text-sm shadow-lg shadow-blue-600/30 whitespace-nowrap"
           >
             Request pilot
           </a>
@@ -62,7 +64,7 @@ export default function App() {
           <div className="max-w-6xl mx-auto text-center">
             {/* Dominant Brand Name */}
             <div className="mb-16 fade-in-up">
-              <h1 className="text-[120px] md:text-[190px] lg:text-[210px] font-black mb-6 leading-none tracking-tighter brand-glow mono">
+              <h1 className="text-[clamp(56px,14vw,210px)] font-black mb-6 leading-none tracking-tighter brand-glow mono break-words">
                 <span className="gradient-text">Synthector</span>
               </h1>
               <div className="h-2 w-80 mx-auto bg-gradient-to-r from-transparent via-blue-600 to-transparent glow"></div>
@@ -153,13 +155,13 @@ export default function App() {
               ))}
             </div>
 
-            <div className="mt-24 bg-white border-2 border-blue-200 rounded-2xl p-12 shadow-xl">
+            <div className="mt-16 sm:mt-24 bg-white border-2 border-blue-200 rounded-2xl p-6 sm:p-10 lg:p-12 shadow-xl">
               <h3 className="text-4xl font-bold mb-6 mono gradient-text">Attestation</h3>
               <p className="text-gray-700 mb-10 text-xl leading-relaxed">
                 Proof artifacts are outcome-level: designed to support audits and partner verification with cryptographic signing.
               </p>
 
-              <div className="bg-gray-50 p-8 rounded-xl mono text-base text-gray-900 border-2 border-gray-200 shadow-sm">
+              <div className="bg-gray-50 p-5 sm:p-8 rounded-xl mono text-base text-gray-900 border-2 border-gray-200 shadow-sm">
                 <div className="flex items-start space-x-4">
                   <Lock className="w-6 h-6 mt-1 flex-shrink-0 text-blue-600" />
                   <div className="space-y-2">
