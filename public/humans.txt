@@ -1,0 +1,8 @@
+/* TEAM */
+Name: Christopher R. Runowski
+Contact: Synthector@gmail.com
+Site: https://Synthector.com/
+
+/* SITE */
+Last updated: 2026-02-15
+Hosting: GitHub Pages

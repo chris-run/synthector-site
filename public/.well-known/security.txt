@@ -1,0 +1,4 @@
+Contact: mailto:Synthector@gmail.com
+Preferred-Languages: en
+Canonical: https://Synthector.com/.well-known/security.txt
+Expires: 2027-02-15
