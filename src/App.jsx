@@ -239,7 +239,7 @@ export default function App() {
               <span className="gradient-text">Security posture</span>
             </h2>
             <p className="text-gray-700 mb-16 text-xl leading-relaxed text-center max-w-3xl mx-auto">
-              <span className="font-semibold">Synthector processes content in-memory and does not retain customer content artifacts.</span>
+              <span className="font-semibold">Synthector processes content in-memory and does not retain customer content artifacts. </span>
               Built to support regulated ingestion paths with explicit control semantics.
             </p>
 
