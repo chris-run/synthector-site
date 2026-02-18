@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Shield, Lock, CheckCircle, ArrowRight, Zap, FileText, Eye, Database } from 'lucide-react'
 
-const CONTACT_EMAIL = 'Synthector@gmail.com'
+const CONTACT_EMAIL = 'contact@synthector.com'
 
 function mailto(subject) {
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`
