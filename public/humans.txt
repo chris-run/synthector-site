@@ -1,6 +1,6 @@
 /* TEAM */
 Name: Christopher R. Runowski
-Contact: Synthector@gmail.com
+Contact: contact@synthector.com
 Site: https://Synthector.com/
 
 /* SITE */
