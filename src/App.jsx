@@ -47,7 +47,7 @@ export default function App() {
             href={mailto('Synthector Pilot Request')}
             className="bg-blue-600 hover:bg-blue-700 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-xl font-bold transition-all hover:scale-105 mono text-sm shadow-lg shadow-blue-600/30 whitespace-nowrap"
           >
-            Request pilot
+            Get pilot access
           </a>
         </div>
       </nav>
@@ -76,8 +76,8 @@ export default function App() {
             </p>
 
             <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed fade-in-up stagger-2">
-              Embed into transcript/data pipelines to reduce content exposure and support audits.
-              <span className="font-semibold"> Designed for regulated pipelines.</span>
+              Drop Synthector into transcript and document pipelines to reduce exposure before data reaches LLMs, vendors, or downstream stores.
+              <span className="font-semibold"> Built for audits, not guesswork.</span>
             </p>
 
             {/* Required phrases (explicit) */}
@@ -105,7 +105,7 @@ export default function App() {
                 href={mailto('Synthector Pilot Request')}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-6 rounded-xl font-bold text-xl transition-all hover:scale-105 flex items-center space-x-3 shadow-2xl shadow-blue-600/30 glow"
               >
-                <span>Request pilot access</span>
+                <span>Get pilot access</span>
                 <ArrowRight className="w-6 h-6" />
               </a>
 
@@ -132,10 +132,10 @@ export default function App() {
           <div className="relative">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {[
-                { icon: FileText, title: 'Input', desc: 'Transcripts and documents containing sensitive content', color: 'from-red-500 to-orange-500' },
-                { icon: Shield, title: 'Transform', desc: 'Deterministic redaction under policy', color: 'from-blue-600 to-blue-700' },
-                { icon: Eye, title: 'Leak Gate', desc: 'Verification step; fail-closed optional', color: 'from-indigo-600 to-indigo-700' },
-                { icon: CheckCircle, title: 'Output', desc: 'Redacted output + evidence metadata', color: 'from-blue-500 to-cyan-600' }
+                { icon: FileText, title: 'Input', desc: 'Transcripts and documents with PII', color: 'from-red-500 to-orange-500' },
+                { icon: Shield, title: 'Transform', desc: 'Deterministic redaction under a pinned policy', color: 'from-blue-600 to-blue-700' },
+                { icon: Eye, title: 'Leak Gate', desc: 'Verify the redacted output; QC will block return if PII leaked', color: 'from-indigo-600 to-indigo-700' },
+                { icon: CheckCircle, title: 'Output', desc: 'Redacted transcript + audit-grade receipts', color: 'from-blue-500 to-cyan-600' }
               ].map((step, idx) => (
                 <div key={idx} className="relative">
                   <div className="feature-card p-10 rounded-2xl border-glow scan-line h-full bg-white">
@@ -158,7 +158,7 @@ export default function App() {
             <div className="mt-16 sm:mt-24 bg-white border-2 border-blue-200 rounded-2xl p-6 sm:p-10 lg:p-12 shadow-xl">
               <h3 className="text-4xl font-bold mb-6 mono gradient-text">Attestation</h3>
               <p className="text-gray-700 mb-10 text-xl leading-relaxed">
-                Proof artifacts are outcome-level: designed to support audits and partner verification with cryptographic signing.
+                Every run emits a verifiable receipt: what policy ran, what the gate decided, and why—built for audits and partner verification.
               </p>
 
               <div className="bg-gray-50 p-5 sm:p-8 rounded-xl mono text-base text-gray-900 border-2 border-gray-200 shadow-sm">
@@ -167,7 +167,7 @@ export default function App() {
                   <div className="space-y-2">
                     <div className="font-semibold text-gray-800">Signed attestation token (JWS) available</div>
                     <div className="text-gray-700">
-                      Evidence: metadata only (policy/ruleset identity + gate outcome). No content artifacts stored.
+                      Metadata only: policy/ruleset identity + QC gate outcomes. No raw or redacted text stored.
                     </div>
                   </div>
                 </div>
@@ -182,31 +182,31 @@ export default function App() {
       <section id="features" className="py-28 px-6 bg-white relative">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-5xl md:text-6xl font-bold text-center mb-8 text-gray-900">
-            Built for <span className="gradient-text">regulated scale</span>
+            Built for <span className="gradient-text">regulated pipelines</span>
           </h2>
           <p className="text-center text-gray-600 text-xl mb-24 max-w-3xl mx-auto leading-relaxed">
-            API-first redaction for call centers, transcription platforms, and AI ingestion paths that cannot compromise on privacy posture.
+            API-first redaction for call centers, transcription platforms, and AI ingestion paths where privacy posture must be explicit.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
               {
                 title: 'Deterministic Redaction',
-                desc: 'Repeatable transforms under a stable policy. Supports reproducibility and predictable enforcement.',
+                desc: 'Same input, same output — under a versioned policy you can document.',
                 icon: Zap,
-                features: ['Repeatable outputs', 'Audit-friendly evidence', 'Change-controlled policies']
+                features: ['Repeatable outputs', 'Audit-friendly evidence', 'Predictable enforcement']
               },
               {
-                title: 'Posthoc Leak Gate',
-                desc: 'Verification step designed to block suspicious residuals. Posthoc leak check runs on anonymized output only.',
+                title: 'Leak Gate Verification',
+                desc: 'A second pass that checks the anonymized output and to prevent leaks before anything moves downstream.',
                 icon: Shield,
-                features: ['Outcome verification', 'Fail-closed configurable', 'Partner-safe evidence']
+                features: ['Outcome verification', 'Fail-closed quality control', 'Evidence for review']
               },
               {
                 title: 'Zero Retention Posture',
-                desc: 'Zero retention by default. Process in-memory and return outputs without persisting raw or redacted content artifacts.',
+                desc: 'Process in-memory and return outputs without persisting raw or redacted content artifacts.',
                 icon: Database,
-                features: ['In-memory processing', 'No content artifacts stored', 'Aggregate-only telemetry modes (optional)']
+                features: ['In-memory processing', 'No content artifacts stored', 'Aggregate telemetry optional']
               }
             ].map((feature, idx) => (
               <div key={idx} className="feature-card p-12 rounded-2xl border-glow group bg-white">
@@ -240,7 +240,7 @@ export default function App() {
             </h2>
             <p className="text-gray-700 mb-16 text-xl leading-relaxed text-center max-w-3xl mx-auto">
               <span className="font-semibold">Synthector processes content in-memory and does not retain customer content artifacts. </span>
-              Built to support regulated ingestion paths with explicit control semantics.
+              Built for regulated data ingestion with deterministic outputs and audit-grade receipts.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -250,7 +250,7 @@ export default function App() {
                 </div>
                 <h3 className="font-bold text-xl mb-3 text-gray-900 mono">Ephemeral Processing</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Requests are processed in-memory and not persisted as raw or redacted artifacts.
+                  Processed in-memory. No raw or redacted artifacts retained.
                 </p>
               </div>
 
@@ -260,7 +260,7 @@ export default function App() {
                 </div>
                 <h3 className="font-bold text-xl mb-3 text-gray-900 mono">Attestation Evidence</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Outcome-level metadata and optional signed attestation (JWS) for verification and audits.
+                  Metadata-only receipts, with signed JWS for audits and partner verification.
                 </p>
               </div>
 
@@ -270,7 +270,7 @@ export default function App() {
                 </div>
                 <h3 className="font-bold text-xl mb-3 text-gray-900 mono">Audit-friendly by design</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Deterministic, tenant-isolated operation with evidence metadata designed to support compliance workflows.
+                  Deterministic, single-tenant operation designed for compliance workflows.
                 </p>
               </div>
             </div>
@@ -282,17 +282,17 @@ export default function App() {
       <section className="py-28 px-6 bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 border-t-2 border-b-2 border-blue-200">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-6xl font-bold mb-10 leading-tight text-gray-900">
-            Request <span className="gradient-text">pilot access</span>
+            Get <span className="gradient-text">pilot access</span>
           </h2>
           <p className="text-2xl text-gray-700 mb-12 leading-relaxed">
-            Email works best for the pilot. Include what system you’re integrating with and your constraints (retention, region, volume).
+            Email works best. Include what you’re integrating with, your constraints (retention/region/volume), and the target workflow (LLM ingestion, RAG, analytics).
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <a
               href={mailto('Synthector Pilot Request')}
               className="bg-blue-600 hover:bg-blue-700 text-white px-12 py-6 rounded-xl font-bold text-xl transition-all hover:scale-105 flex items-center justify-center space-x-3 shadow-2xl shadow-blue-600/30 glow"
             >
-              <span>Request pilot access</span>
+              <span>Get pilot access</span>
               <ArrowRight className="w-7 h-7" />
             </a>
             <a
@@ -317,7 +317,7 @@ export default function App() {
                 <span className="text-2xl font-bold mono tracking-tight text-gray-900">SYNTHECTOR</span>
               </div>
               <p className="text-gray-600 leading-relaxed text-lg mb-6">
-                Deterministic privacy redaction + leak-gate for AI ingestion.
+                Privacy redaction you can prove.
               </p>
               <p className="text-gray-700 font-semibold">
                 Contact:{' '}
