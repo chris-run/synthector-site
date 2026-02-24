@@ -72,7 +72,7 @@ export default function App() {
 
             {/* Tagline (required wording) */}
             <p className="text-4xl md:text-5xl font-bold mb-8 text-gray-900 leading-tight fade-in-up stagger-1">
-              Deterministic privacy redaction + leak-gate for AI ingestion.
+              Privacy-safe AI workflows. Auditable PII redaction for LLMs, RAG, and vector databases.
             </p>
 
             <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed fade-in-up stagger-2">
