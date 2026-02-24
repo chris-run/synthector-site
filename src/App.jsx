@@ -64,7 +64,7 @@ export default function App() {
           <div className="max-w-6xl mx-auto text-center">
             {/* Dominant Brand Name */}
             <div className="mb-16 fade-in-up">
-              <h1 className="text-[clamp(56px,14vw,210px)] font-black mb-6 leading-none tracking-tighter brand-glow mono break-words">
+              <h1 className="text-[clamp(56px,14vw,190px)] font-black mb-6 leading-none tracking-tighter brand-glow mono whitespace-nowrap">
                 <span className="gradient-text">Synthector</span>
               </h1>
               <div className="h-2 w-80 mx-auto bg-gradient-to-r from-transparent via-blue-600 to-transparent glow"></div>
