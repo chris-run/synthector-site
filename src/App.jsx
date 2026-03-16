@@ -344,7 +344,7 @@ export default function App() {
           <div className="tech-line mb-8"></div>
 
           <div className="flex flex-col md:flex-row justify-between items-center text-gray-600">
-            <p className="text-lg">© 2026 Christopher R. Runowski. All rights reserved.</p>
+            <p className="text-lg">© 2026 Synthector. All rights reserved.</p>
             <p className="mono mt-4 md:mt-0">Privacy redaction you can prove.</p>
           </div>
         </div>
