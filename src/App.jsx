@@ -53,7 +53,7 @@ export default function App() {
       </nav>
 
       {/* Hero Section */}
-      <header id="top" className="relative pt-32 pb-28 px-6 grid-bg overflow-hidden">
+      <header id="top" className="relative pt-28 pb-16 px-6 grid-bg overflow-hidden">
         <div className="absolute inset-0 opacity-20" aria-hidden="true">
           <div className="absolute top-20 left-10 w-96 h-96 bg-blue-500/30 rounded-full blur-3xl"></div>
           <div className="absolute bottom-20 right-10 w-[500px] h-[500px] bg-indigo-500/30 rounded-full blur-3xl"></div>
@@ -63,8 +63,8 @@ export default function App() {
         <div className="max-w-7xl mx-auto relative z-10">
           <div className="max-w-6xl mx-auto text-center">
             {/* Dominant Brand Name */}
-            <div className="mb-16 fade-in-up">
-              <h1 className="text-[clamp(56px,14vw,190px)] font-black mb-6 leading-none tracking-tighter brand-glow mono whitespace-nowrap">
+            <div className="mb-10 fade-in-up">
+              <h1 className="text-[clamp(48px,11.2vw,168px)] font-black mb-6 leading-none tracking-tighter brand-glow mono break-words">
                 <span className="gradient-text">Synthector</span>
               </h1>
               <div className="h-2 w-80 mx-auto bg-gradient-to-r from-transparent via-blue-600 to-transparent glow"></div>
@@ -72,31 +72,30 @@ export default function App() {
 
             {/* Tagline (required wording) */}
             <p className="text-4xl md:text-5xl font-bold mb-8 text-gray-900 leading-tight fade-in-up stagger-1">
-              Privacy-safe AI workflows. Auditable PII redaction for LLMs, RAG, and vector databases.
+              Attestable privacy boundary for sensitive text before AI, analytics, storage, or workflow systems.
             </p>
 
             <p className="text-xl md:text-2xl text-gray-600 mb-10 max-w-3xl mx-auto leading-relaxed fade-in-up stagger-2">
-              Drop Synthector into transcript and document pipelines to reduce exposure before data reaches LLMs, vendors, or downstream stores.
-              <span className="font-semibold"> Built for audits, not guesswork.</span>
+              Synthector applies deterministic minimization, runs leak checks on anonymized output, and returns constrained evidence with the result.
             </p>
 
             {/* Required phrases (explicit) */}
             <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-4 text-left text-gray-700 mono fade-in-up stagger-3 mb-12">
               <div className="flex items-start space-x-3">
                 <div className="w-3 h-3 bg-blue-600 rounded-full mt-2"></div>
-                <span className="font-bold">Zero retention by default.</span>
+                <span className="font-bold">Inline text boundary.</span>
               </div>
               <div className="flex items-start space-x-3">
                 <div className="w-3 h-3 bg-blue-600 rounded-full mt-2"></div>
-                <span className="font-bold">Posthoc leak check runs on anonymized output only.</span>
+                <span className="font-bold">Deterministic, versioned rulesets.</span>
               </div>
               <div className="flex items-start space-x-3">
                 <div className="w-3 h-3 bg-blue-600 rounded-full mt-2"></div>
-                <span className="font-bold">Deterministic, audit-friendly, tenant-isolated.</span>
+                <span className="font-bold">Leak checks on anonymized output.</span>
               </div>
               <div className="flex items-start space-x-3">
                 <div className="w-3 h-3 bg-blue-600 rounded-full mt-2"></div>
-                <span className="font-bold">Designed for regulated pipelines.</span>
+                <span className="font-bold">Metadata-only evidence. Retention-minimized handling.</span>
               </div>
             </div>
 
@@ -117,25 +116,25 @@ export default function App() {
               </a>
             </div>
 
-            <div className="tech-line max-w-7xl mx-auto mt-28"></div>
+            <div className="tech-line max-w-7xl mx-auto mt-14"></div>
           </div>
         </div>
       </header>
 
       {/* How It Works Flow */}
-      <section id="how-it-works" className="py-28 px-6 relative bg-gray-50">
+      <section id="how-it-works" className="py-20 px-6 relative bg-gray-50">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-5xl md:text-6xl font-bold text-center mb-24 text-gray-900">
+          <h2 className="text-5xl md:text-6xl font-bold text-center mb-16 text-gray-900">
             <span className="gradient-text">How It Works</span>
           </h2>
 
           <div className="relative">
             <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
               {[
-                { icon: FileText, title: 'Input', desc: 'Transcripts and documents with PII', color: 'from-red-500 to-orange-500' },
-                { icon: Shield, title: 'Transform', desc: 'Deterministic redaction under a pinned policy', color: 'from-blue-600 to-blue-700' },
-                { icon: Eye, title: 'Leak Gate', desc: 'Verify the redacted output; QC will block return if PII leaked', color: 'from-indigo-600 to-indigo-700' },
-                { icon: CheckCircle, title: 'Output', desc: 'Redacted transcript + audit-grade receipts', color: 'from-blue-500 to-cyan-600' }
+                { icon: FileText, title: 'Input', desc: 'Sensitive text before models, storage, or workflow systems', color: 'from-red-500 to-orange-500' },
+                { icon: Shield, title: 'Transform', desc: 'Apply deterministic minimization under a versioned ruleset', color: 'from-blue-600 to-blue-700' },
+                { icon: Eye, title: 'Leak Gate', desc: 'Check anonymized output and fail closed on residual PII', color: 'from-indigo-600 to-indigo-700' },
+                { icon: CheckCircle, title: 'Output', desc: 'Return minimized text with leak status, counts, and attestation', color: 'from-blue-500 to-cyan-600' }
               ].map((step, idx) => (
                 <div key={idx} className="relative">
                   <div className="feature-card p-10 rounded-2xl border-glow scan-line h-full bg-white">
@@ -155,19 +154,19 @@ export default function App() {
               ))}
             </div>
 
-            <div className="mt-16 sm:mt-24 bg-white border-2 border-blue-200 rounded-2xl p-6 sm:p-10 lg:p-12 shadow-xl">
+            <div className="mt-14 sm:mt-16 bg-white border-2 border-blue-200 rounded-2xl p-6 sm:p-8 lg:p-10 shadow-xl">
               <h3 className="text-4xl font-bold mb-6 mono gradient-text">Attestation</h3>
               <p className="text-gray-700 mb-10 text-xl leading-relaxed">
-                Every run emits a verifiable receipt: what policy ran, what the gate decided, and why—built for audits and partner verification.
+                Each run returns constrained evidence: timing, ruleset version, leak result, and aggregate counts.
               </p>
 
               <div className="bg-gray-50 p-5 sm:p-8 rounded-xl mono text-base text-gray-900 border-2 border-gray-200 shadow-sm">
                 <div className="flex items-start space-x-4">
                   <Lock className="w-6 h-6 mt-1 flex-shrink-0 text-blue-600" />
                   <div className="space-y-2">
-                    <div className="font-semibold text-gray-800">Signed attestation token (JWS) available</div>
+                    <div className="font-semibold text-gray-800">Signed attestation receipt (JWS)</div>
                     <div className="text-gray-700">
-                      Metadata only: policy/ruleset identity + QC gate outcomes. No raw or redacted text stored.
+                      Metadata only: identifiers, timestamps, leak result, and counts. Raw and minimized text stay out of the receipt.
                     </div>
                   </div>
                 </div>
@@ -179,34 +178,34 @@ export default function App() {
       </section>
 
       {/* Features Grid */}
-      <section id="features" className="py-28 px-6 bg-white relative">
+      <section id="features" className="py-20 px-6 bg-white relative">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-5xl md:text-6xl font-bold text-center mb-8 text-gray-900">
-            Built for <span className="gradient-text">regulated pipelines</span>
+            Current <span className="gradient-text">product surface</span>
           </h2>
-          <p className="text-center text-gray-600 text-xl mb-24 max-w-3xl mx-auto leading-relaxed">
-            API-first redaction for call centers, transcription platforms, and AI ingestion paths where privacy posture must be explicit.
+          <p className="text-center text-gray-600 text-xl mb-16 max-w-3xl mx-auto leading-relaxed">
+            Synthector minimizes sensitive text, checks the result for residual leakage, and returns constrained evidence for review.
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
             {[
               {
-                title: 'Deterministic Redaction',
-                desc: 'Same input, same output — under a versioned policy you can document.',
+                title: 'Deterministic Minimization',
+                desc: 'Stable outputs under a versioned ruleset.',
                 icon: Zap,
-                features: ['Repeatable outputs', 'Audit-friendly evidence', 'Predictable enforcement']
+                features: ['Versioned rulesets', 'Repeatable outputs', 'Predictable enforcement']
               },
               {
-                title: 'Leak Gate Verification',
-                desc: 'A second pass that checks the anonymized output and to prevent leaks before anything moves downstream.',
+                title: 'Leak Checks',
+                desc: 'Second-pass checks on anonymized output with fail-closed support.',
                 icon: Shield,
-                features: ['Outcome verification', 'Fail-closed quality control', 'Evidence for review']
+                features: ['Anonymized-output checks', 'Fail-closed support', 'Categorical results']
               },
               {
-                title: 'Zero Retention Posture',
-                desc: 'Process in-memory and return outputs without persisting raw or redacted content artifacts.',
+                title: 'Retention-Minimized Handling',
+                desc: 'Raw text is processed transiently; minimized text is returned rather than intentionally persisted on the sync path.',
                 icon: Database,
-                features: ['In-memory processing', 'No content artifacts stored', 'Aggregate telemetry optional']
+                features: ['Transient raw-text handling', 'Minimized text returned', 'Metadata-only evidence']
               }
             ].map((feature, idx) => (
               <div key={idx} className="feature-card p-12 rounded-2xl border-glow group bg-white">
@@ -232,15 +231,15 @@ export default function App() {
       </section>
 
       {/* Security / Architecture Section */}
-      <section id="security" className="py-28 px-6 grid-bg">
+      <section id="security" className="py-20 px-6 grid-bg">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-5xl mx-auto">
             <h2 className="text-5xl md:text-6xl font-bold mb-10 text-center text-gray-900">
-              <span className="gradient-text">Security posture</span>
+              <span className="gradient-text">Handling posture</span>
             </h2>
-            <p className="text-gray-700 mb-16 text-xl leading-relaxed text-center max-w-3xl mx-auto">
-              <span className="font-semibold">Synthector processes content in-memory and does not retain customer content artifacts. </span>
-              Built for regulated data ingestion with deterministic outputs and audit-grade receipts.
+            <p className="text-gray-700 mb-12 text-xl leading-relaxed text-center max-w-3xl mx-auto">
+              <span className="font-semibold">Sync text handling is retention-minimized. </span>
+              Raw text is processed transiently, minimized text is returned to the caller, and retained state is limited to metadata, metering, aggregates, and logs.
             </p>
 
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -248,9 +247,9 @@ export default function App() {
                 <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6 border-2 border-blue-200">
                   <Lock className="w-8 h-8 text-blue-600" />
                 </div>
-                <h3 className="font-bold text-xl mb-3 text-gray-900 mono">Ephemeral Processing</h3>
+                <h3 className="font-bold text-xl mb-3 text-gray-900 mono">Transient Sync Processing</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Processed in-memory. No raw or redacted artifacts retained.
+                  Raw text is handled in memory for the request.
                 </p>
               </div>
 
@@ -258,9 +257,9 @@ export default function App() {
                 <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6 border-2 border-blue-200">
                   <Shield className="w-8 h-8 text-blue-600" />
                 </div>
-                <h3 className="font-bold text-xl mb-3 text-gray-900 mono">Attestation Evidence</h3>
+                <h3 className="font-bold text-xl mb-3 text-gray-900 mono">Metadata-Only Evidence</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Metadata-only receipts, with signed JWS for audits and partner verification.
+                  Evidence is limited to metadata, leak results, and aggregate counts.
                 </p>
               </div>
 
@@ -268,9 +267,9 @@ export default function App() {
                 <div className="w-16 h-16 bg-blue-100 rounded-xl flex items-center justify-center mb-6 border-2 border-blue-200">
                   <Eye className="w-8 h-8 text-blue-600" />
                 </div>
-                <h3 className="font-bold text-xl mb-3 text-gray-900 mono">Audit-friendly by design</h3>
+                <h3 className="font-bold text-xl mb-3 text-gray-900 mono">Focused by Design</h3>
                 <p className="text-gray-600 leading-relaxed">
-                  Deterministic, single-tenant operation designed for compliance workflows.
+                  Synthector is focused on sensitive text. Broader workflows and additional modules can be layered around that core.
                 </p>
               </div>
             </div>
@@ -279,13 +278,13 @@ export default function App() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-28 px-6 bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 border-t-2 border-b-2 border-blue-200">
+      <section className="py-20 px-6 bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 border-t-2 border-b-2 border-blue-200">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-5xl md:text-6xl font-bold mb-10 leading-tight text-gray-900">
             Get <span className="gradient-text">pilot access</span>
           </h2>
           <p className="text-2xl text-gray-700 mb-12 leading-relaxed">
-            Email works best. Include what you’re integrating with, your constraints (retention/region/volume), and the target workflow (LLM ingestion, RAG, analytics).
+            Email works best. Include the text source, target system, volume, and any retention or review constraints.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <a
@@ -306,7 +305,7 @@ export default function App() {
       </section>
 
       {/* Footer */}
-      <footer className="py-20 px-6 border-t-2 border-gray-200 bg-white">
+      <footer className="py-16 px-6 border-t-2 border-gray-200 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="flex flex-col md:flex-row justify-between items-start gap-12 mb-12">
             <div className="max-w-md">
@@ -317,7 +316,7 @@ export default function App() {
                 <span className="text-2xl font-bold mono tracking-tight text-gray-900">SYNTHECTOR</span>
               </div>
               <p className="text-gray-600 leading-relaxed text-lg mb-6">
-                Privacy redaction you can prove.
+                Deterministic minimization for sensitive text.
               </p>
               <p className="text-gray-700 font-semibold">
                 Contact:{' '}
@@ -345,7 +344,7 @@ export default function App() {
 
           <div className="flex flex-col md:flex-row justify-between items-center text-gray-600">
             <p className="text-lg">© 2026 Synthector. All rights reserved.</p>
-            <p className="mono mt-4 md:mt-0">Privacy redaction you can prove.</p>
+            <p className="mono mt-4 md:mt-0">Deterministic minimization for sensitive text.</p>
           </div>
         </div>
       </footer>
