@@ -41,6 +41,16 @@ function normalizeUtmValue(value) {
   return /^[a-z0-9][a-z0-9._-]{0,63}$/.test(normalized) ? normalized : 'unknown'
 }
 
+function hashQueryParams(hash) {
+  const queryStart = hash.indexOf('?')
+  if (queryStart === -1) {
+    return new URLSearchParams()
+  }
+
+  // Support links copied as /#demo?utm_source=... where the query lives in the hash.
+  return new URLSearchParams(hash.slice(queryStart + 1))
+}
+
 function utmContext() {
   if (typeof window === 'undefined') {
     return {
@@ -49,11 +59,14 @@ function utmContext() {
     }
   }
 
-  const params = new URLSearchParams(window.location.search)
+  const searchParams = new URLSearchParams(window.location.search)
+  const hashParams = hashQueryParams(window.location.hash)
+  const paramValue = (name) =>
+    searchParams.has(name) ? searchParams.get(name) : hashParams.get(name)
 
   return {
-    utm_source: normalizeUtmValue(params.get('utm_source')),
-    utm_campaign: normalizeUtmValue(params.get('utm_campaign'))
+    utm_source: normalizeUtmValue(paramValue('utm_source')),
+    utm_campaign: normalizeUtmValue(paramValue('utm_campaign'))
   }
 }
 
