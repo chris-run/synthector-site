@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Shield, Lock, CheckCircle, ArrowRight, Zap, FileText, Eye, Database, ExternalLink } from 'lucide-react'
+import { trackLabMetric } from './metrics'
 
 const CONTACT_EMAIL = 'contact@synthector.com'
 
@@ -269,6 +270,8 @@ function mailto(subject) {
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`
 }
 
+let labViewMetricSent = false
+
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
   const [selectedWorkflowId, setSelectedWorkflowId] = useState(WORKFLOW_LAB_EXAMPLES[0].id)
@@ -282,18 +285,63 @@ export default function App() {
   const selectedLeakStatus = leakStatusFor(selectedWorkflow, activeRiskCategories)
   const selectedReceipt = receiptPreview(selectedWorkflow, activeRiskCategories)
 
+  const metricContext = (overrides = {}) => ({
+    workflowId: overrides.workflowId ?? selectedWorkflowId,
+    riskCategoryIds: overrides.riskCategoryIds ?? activeRiskCategories,
+    viewMode: overrides.viewMode ?? demoViewMode
+  })
+
+  const trackCurrentLabMetric = (event, overrides) => {
+    trackLabMetric(event, metricContext(overrides))
+  }
+
+  const selectWorkflow = (workflowId) => {
+    if (workflowId === selectedWorkflowId) {
+      return
+    }
+
+    setSelectedWorkflowId(workflowId)
+    trackCurrentLabMetric('workflow_selected', { workflowId })
+  }
+
   const toggleRiskCategory = (categoryId) => {
-    setActiveRiskCategories((currentCategories) =>
-      currentCategories.includes(categoryId)
-        ? currentCategories.filter((currentCategory) => currentCategory !== categoryId)
-        : [...currentCategories, categoryId]
-    )
+    const nextRiskCategories = activeRiskCategories.includes(categoryId)
+      ? activeRiskCategories.filter((currentCategory) => currentCategory !== categoryId)
+      : [...activeRiskCategories, categoryId]
+
+    setActiveRiskCategories(nextRiskCategories)
+    trackCurrentLabMetric('risk_profile_changed', { riskCategoryIds: nextRiskCategories })
+  }
+
+  const selectDemoViewMode = (viewMode) => {
+    if (viewMode === demoViewMode) {
+      return
+    }
+
+    setDemoViewMode(viewMode)
+
+    if (viewMode === 'evidence') {
+      trackCurrentLabMetric('evidence_view_opened', { viewMode })
+    }
   }
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    if (labViewMetricSent) {
+      return
+    }
+
+    labViewMetricSent = true
+    trackLabMetric('lab_viewed', {
+      workflowId: WORKFLOW_LAB_EXAMPLES[0].id,
+      riskCategoryIds: DEFAULT_RISK_CATEGORY_IDS,
+      viewMode: 'output'
+    })
   }, [])
 
   return (
@@ -489,7 +537,7 @@ export default function App() {
                     <button
                       key={workflow.id}
                       type="button"
-                      onClick={() => setSelectedWorkflowId(workflow.id)}
+                      onClick={() => selectWorkflow(workflow.id)}
                       aria-pressed={selected}
                       className={`w-full text-left px-4 py-4 rounded-xl border-2 transition-all mono font-bold ${
                         selected
@@ -539,7 +587,7 @@ export default function App() {
                     <button
                       key={mode.id}
                       type="button"
-                      onClick={() => setDemoViewMode(mode.id)}
+                      onClick={() => selectDemoViewMode(mode.id)}
                       aria-pressed={demoViewMode === mode.id}
                       className={`px-5 py-3 rounded-xl border-2 mono font-bold transition-all ${
                         demoViewMode === mode.id
@@ -652,6 +700,7 @@ export default function App() {
                   href="https://github.com/chris-run/synthector-evidence-kit"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => trackCurrentLabMetric('evidence_kit_clicked')}
                   className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold mono transition-colors"
                 >
                   <span>View the public evidence kit</span>
@@ -670,6 +719,7 @@ export default function App() {
               <div className="flex flex-col sm:flex-row gap-4">
                 <a
                   href={mailto('Synthector sandbox access')}
+                  onClick={() => trackCurrentLabMetric('sandbox_request_clicked')}
                   className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-5 rounded-xl font-bold text-base sm:text-lg leading-snug transition-all hover:scale-105 inline-flex items-center justify-center gap-3 shadow-xl shadow-blue-600/30 glow text-left sm:text-center"
                 >
                   <span>Request controlled sandbox access</span>
@@ -677,6 +727,7 @@ export default function App() {
                 </a>
                 <a
                   href={mailto('Synthector 20-minute Technical-Fit Call Request')}
+                  onClick={() => trackCurrentLabMetric('technical_call_clicked')}
                   className="border-2 border-gray-300 hover:border-blue-600 hover:bg-blue-50 text-gray-900 px-8 py-5 rounded-xl font-bold text-base sm:text-lg leading-snug transition-all inline-flex items-center justify-center gap-3 mono"
                 >
                   <span>Request a 20-minute technical-fit call</span>
