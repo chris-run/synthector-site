@@ -3,6 +3,84 @@ import { Shield, Lock, CheckCircle, ArrowRight, Zap, FileText, Eye, Database } f
 
 const CONTACT_EMAIL = 'contact@synthector.com'
 
+const DEMO_EXAMPLES = [
+  {
+    title: 'Contact-center transcript',
+    original:
+      'Agent: Thanks for calling Northstar Energy. Caller Maya Chen says account MC-44219 needs a callback at (415) 555-0184 and email follow-up at maya.chen@example.test. She asks to update service address to 118 Harbor Lane, Apt 4, Redwood City, CA 94063.',
+    minimized:
+      'Agent: Thanks for calling Northstar Energy. Caller [PERSON_1] says account [ACCOUNT_ID_1] needs a callback at [PHONE_1] and email follow-up at [EMAIL_1]. She asks to update service address to [ADDRESS_1].',
+    leakStatus: 'Demo pass: minimized output contains placeholders only.',
+    counts: {
+      person: 1,
+      account_id: 1,
+      phone: 1,
+      email: 1,
+      address: 1
+    }
+  },
+  {
+    title: 'CRM support note',
+    original:
+      'Follow up with Jordan Reed from Acme Cloud Trial on ticket CRM-7782. Last four of payment card 4242 should not be copied into analytics. Preferred email is jordan.reed@example.test, and the renewal quote is Q-20491.',
+    minimized:
+      'Follow up with [PERSON_1] from [ORGANIZATION_1] on ticket [SUPPORT_ID_1]. [PAYMENT_HINT_1] should not be copied into analytics. Preferred email is [EMAIL_1], and the renewal quote is [QUOTE_ID_1].',
+    leakStatus: 'Demo pass: no original synthetic identifiers shown in output.',
+    counts: {
+      person: 1,
+      organization: 1,
+      support_id: 1,
+      payment_hint: 1,
+      email: 1,
+      quote_id: 1
+    }
+  },
+  {
+    title: 'HR/internal operational note',
+    original:
+      'Manager note: Priya N. requested time away for a medical appointment on June 14. Employee ID E-10488 is assigned to the case, and team lead Sam Ortiz will cover payroll approval.',
+    minimized:
+      'Manager note: [EMPLOYEE_1] requested time away for [SENSITIVE_REASON_1] on [DATE_1]. Employee ID [EMPLOYEE_ID_1] is assigned to the case, and team lead [PERSON_2] will cover payroll approval.',
+    leakStatus: 'Demo pass: sensitive context is minimized to category labels.',
+    counts: {
+      employee: 1,
+      sensitive_reason: 1,
+      date: 1,
+      employee_id: 1,
+      person: 1
+    }
+  },
+  {
+    title: 'Legal/compliance-style note',
+    original:
+      'Draft memo: case contact Elena Park at elena.park@example.test referenced subpoena matter LGL-3320 and bank account ending 9012. Counsel callback is (212) 555-0147.',
+    minimized:
+      'Draft memo: case contact [PERSON_1] at [EMAIL_1] referenced subpoena matter [MATTER_ID_1] and [FINANCIAL_ACCOUNT_HINT_1]. Counsel callback is [PHONE_1].',
+    leakStatus: 'Demo pass: receipt preview contains metadata only.',
+    counts: {
+      person: 1,
+      email: 1,
+      matter_id: 1,
+      financial_account_hint: 1,
+      phone: 1
+    }
+  }
+]
+
+function totalCount(counts) {
+  return Object.values(counts).reduce((sum, count) => sum + count, 0)
+}
+
+function receiptPreview(example) {
+  return {
+    ruleset_version: 'demo-static-v0',
+    leak_status: 'pass',
+    entities_total: totalCount(example.counts),
+    entities_by_type: example.counts,
+    attestation_mode: 'illustrative_demo'
+  }
+}
+
 function mailto(subject) {
   return `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(subject)}`
 }
@@ -40,6 +118,7 @@ export default function App() {
           <div className="hidden md:flex space-x-8 mono text-sm font-semibold text-gray-700">
             <a href="#features" className="hover:text-blue-600 transition-colors">Features</a>
             <a href="#how-it-works" className="hover:text-blue-600 transition-colors">How It Works</a>
+            <a href="#demo" className="hover:text-blue-600 transition-colors">Demo</a>
             <a href="#security" className="hover:text-blue-600 transition-colors">Security</a>
           </div>
 
@@ -164,7 +243,7 @@ export default function App() {
                 <div className="flex items-start space-x-4">
                   <Lock className="w-6 h-6 mt-1 flex-shrink-0 text-blue-600" />
                   <div className="space-y-2">
-                    <div className="font-semibold text-gray-800">Signed attestation receipt (JWS)</div>
+                    <div className="font-semibold text-gray-800">Attestation receipt metadata</div>
                     <div className="text-gray-700">
                       Metadata only: identifiers, timestamps, leak result, and counts. Raw and minimized text stay out of the receipt.
                     </div>
@@ -173,6 +252,120 @@ export default function App() {
               </div>
             </div>
 
+          </div>
+        </div>
+      </section>
+
+      {/* Static Demo Section */}
+      <section id="demo" className="py-20 px-6 bg-white relative">
+        <div className="max-w-7xl mx-auto">
+          <div className="max-w-4xl mx-auto text-center mb-12">
+            <p className="mono text-sm font-bold text-blue-600 mb-4 tracking-wide">PUBLIC STATIC DEMO</p>
+            <h2 className="text-5xl md:text-6xl font-bold mb-8 text-gray-900">
+              <span className="gradient-text">Synthector AI Privacy Boundary Demo</span>
+            </h2>
+            <p className="text-xl text-gray-700 leading-relaxed mb-6">
+              Explore four static synthetic examples showing the intended boundary shape: original synthetic text, minimized output, leak-check status, aggregate counts, and illustrative receipt metadata.
+            </p>
+            <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 text-left text-gray-800 shadow-sm">
+              <p className="font-bold mb-3">
+                This public demo is for synthetic or non-confidential text only. Do not enter real personal, customer, employee, patient, financial, or confidential data.
+              </p>
+              <p className="text-gray-700">
+                Custom workflow testing is available only through a controlled technical-fit call.
+              </p>
+            </div>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+            {DEMO_EXAMPLES.map((example) => (
+              <article key={example.title} className="feature-card rounded-2xl border-glow bg-white overflow-hidden">
+                <div className="p-6 sm:p-8 border-b-2 border-blue-100">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="text-2xl font-bold mono text-gray-900 mb-3">{example.title}</h3>
+                      <div className="inline-flex items-center gap-2 bg-green-50 border-2 border-green-200 text-green-800 px-3 py-2 rounded-lg mono text-sm font-bold">
+                        <CheckCircle className="w-4 h-4" />
+                        <span>Leak-check status</span>
+                      </div>
+                    </div>
+                    <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center border-2 border-blue-200 flex-shrink-0">
+                      <FileText className="w-7 h-7 text-blue-600" />
+                    </div>
+                  </div>
+                  <p className="mt-4 text-gray-700 leading-relaxed">{example.leakStatus}</p>
+                </div>
+
+                <div className="p-6 sm:p-8 space-y-6">
+                  <div>
+                    <h4 className="mono text-sm font-bold text-gray-900 mb-3">Original synthetic text</h4>
+                    <p className="bg-gray-50 border-2 border-gray-200 rounded-xl p-4 text-gray-700 leading-relaxed">
+                      {example.original}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="mono text-sm font-bold text-gray-900 mb-3">Minimized/redacted output</h4>
+                    <p className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 text-gray-800 leading-relaxed">
+                      {example.minimized}
+                    </p>
+                  </div>
+
+                  <div>
+                    <h4 className="mono text-sm font-bold text-gray-900 mb-3">Detected/minimized category counts</h4>
+                    <div className="flex flex-wrap gap-2">
+                      {Object.entries(example.counts).map(([category, count]) => (
+                        <span key={category} className="inline-flex items-center gap-2 bg-white border-2 border-gray-200 rounded-lg px-3 py-2 mono text-sm text-gray-800">
+                          <span className="font-bold">{category}</span>
+                          <span className="text-blue-600 font-bold">{count}</span>
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="mono text-sm font-bold text-gray-900 mb-3">Attestation-style receipt preview</h4>
+                    <pre className="bg-gray-950 text-blue-50 rounded-xl p-4 text-sm overflow-x-auto whitespace-pre-wrap break-words mono border-2 border-gray-800">{JSON.stringify(receiptPreview(example), null, 2)}</pre>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+
+          <div className="mt-12 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 items-stretch">
+            <div className="feature-card p-8 rounded-2xl border-glow bg-white">
+              <h3 className="text-3xl font-bold mono text-gray-900 mb-6">Trust panel</h3>
+              <ul className="space-y-4">
+                {[
+                  'Static synthetic demo',
+                  'No public API call',
+                  'No user text collection',
+                  'No LLM dependency in the core redaction thesis',
+                  'Metadata-only evidence preview'
+                ].map((item) => (
+                  <li key={item} className="flex items-start gap-3 text-gray-700">
+                    <CheckCircle className="w-5 h-5 text-blue-600 mt-1 flex-shrink-0" />
+                    <span className="font-semibold">{item}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 border-2 border-blue-200 rounded-2xl p-8 flex flex-col justify-center">
+              <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-5 leading-tight">
+                Controlled workflow testing
+              </h3>
+              <p className="text-gray-700 text-lg mb-8 leading-relaxed">
+                Use email for controlled workflow testing, fit review, and safe sample-handling discussion.
+              </p>
+              <a
+                href={mailto('Synthector 20-minute Technical-Fit Call Request')}
+                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-5 rounded-xl font-bold text-base sm:text-lg leading-snug transition-all hover:scale-105 inline-flex items-center justify-center gap-3 shadow-xl shadow-blue-600/30 glow w-full sm:w-fit text-left sm:text-center"
+              >
+                <span>Testing AI workflows with sensitive text? Request a 20-minute technical-fit call.</span>
+                <ArrowRight className="w-6 h-6" />
+              </a>
+            </div>
           </div>
         </div>
       </section>
@@ -334,6 +527,7 @@ export default function App() {
               <ul className="space-y-3 text-gray-600">
                 <li><a href="#features" className="hover:text-blue-600 transition-colors text-lg">Features</a></li>
                 <li><a href="#how-it-works" className="hover:text-blue-600 transition-colors text-lg">How It Works</a></li>
+                <li><a href="#demo" className="hover:text-blue-600 transition-colors text-lg">Demo</a></li>
                 <li><a href="#security" className="hover:text-blue-600 transition-colors text-lg">Security</a></li>
                 <li><a href="/privacy.html" className="hover:text-blue-600 transition-colors text-lg">Privacy Policy</a></li>
               </ul>
