@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { Shield, Lock, CheckCircle, ArrowRight, Zap, FileText, Eye, Database } from 'lucide-react'
+import { Shield, Lock, CheckCircle, ArrowRight, Zap, FileText, Eye, Database, ExternalLink } from 'lucide-react'
 
 const CONTACT_EMAIL = 'contact@synthector.com'
 
@@ -349,6 +349,20 @@ export default function App() {
                   </li>
                 ))}
               </ul>
+              <div className="mt-8 pt-6 border-t-2 border-blue-100">
+                <p className="text-gray-700 leading-relaxed mb-5">
+                  The evidence kit contains synthetic examples, illustrative receipt metadata, and a local verifier. It does not include the proprietary minimization engine.
+                </p>
+                <a
+                  href="https://github.com/chris-run/synthector-evidence-kit"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold mono transition-colors"
+                >
+                  <span>View the public evidence kit</span>
+                  <ExternalLink className="w-5 h-5" />
+                </a>
+              </div>
             </div>
 
             <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 border-2 border-blue-200 rounded-2xl p-8 flex flex-col justify-center">
