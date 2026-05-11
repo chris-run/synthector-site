@@ -269,10 +269,10 @@ export default function App() {
             </p>
             <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 text-left text-gray-800 shadow-sm">
               <p className="font-bold mb-3">
-                This public demo is for synthetic or non-confidential text only. Do not enter real personal, customer, employee, patient, financial, or confidential data.
+                This is a static synthetic demo. It shows representative inputs, minimized outputs, leak-check status, and illustrative evidence metadata. It does not accept user-entered text or call a live API.
               </p>
               <p className="text-gray-700">
-                Custom workflow testing is available only through a controlled technical-fit call.
+                Custom workflow testing is available through a controlled technical-fit call.
               </p>
             </div>
           </div>
