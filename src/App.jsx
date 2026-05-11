@@ -3,66 +3,211 @@ import { Shield, Lock, CheckCircle, ArrowRight, Zap, FileText, Eye, Database, Ex
 
 const CONTACT_EMAIL = 'contact@synthector.com'
 
-const DEMO_EXAMPLES = [
+const RISK_CATEGORIES = [
+  { id: 'names', label: 'Names' },
+  { id: 'email', label: 'Email' },
+  { id: 'phone', label: 'Phone' },
+  { id: 'address', label: 'Address' },
+  { id: 'dates', label: 'Dates' },
+  { id: 'referenceIds', label: 'Reference/account IDs' }
+]
+
+const DEFAULT_RISK_CATEGORY_IDS = RISK_CATEGORIES.map((category) => category.id)
+
+const WORKFLOW_LAB_EXAMPLES = [
   {
-    title: 'Contact-center transcript',
+    id: 'contact-center-call',
+    label: 'Contact center call',
     original:
-      'Agent: Thanks for calling Northstar Energy. Caller Maya Chen says account MC-44219 needs a callback at (415) 555-0184 and email follow-up at maya.chen@example.test. She asks to update service address to 118 Harbor Lane, Apt 4, Redwood City, CA 94063.',
+      'Contact center call: Agent confirms caller Maya Chen on account MC-44219. Callback is (415) 555-0184, email is maya.chen@example.test, service address is 118 Harbor Lane Apt 4, Redwood City CA 94063, and follow-up is scheduled for June 14.',
     minimized:
-      'Agent: Thanks for calling Northstar Energy. Caller [PERSON_1] says account [ACCOUNT_ID_1] needs a callback at [PHONE_1] and email follow-up at [EMAIL_1]. She asks to update service address to [ADDRESS_1].',
-    leakStatus: 'Demo pass: minimized output contains placeholders only.',
-    counts: {
-      person: 1,
-      account_id: 1,
+      'Contact center call: Agent confirms caller [PERSON_1] on account [ACCOUNT_ID_1]. Callback is [PHONE_1], email is [EMAIL_1], service address is [ADDRESS_1], and follow-up is scheduled for [DATE_1].',
+    categoryCounts: {
+      names: 1,
+      email: 1,
       phone: 1,
-      email: 1,
-      address: 1
+      address: 1,
+      dates: 1,
+      referenceIds: 1
+    },
+    segments: [
+      { text: 'Contact center call: Agent confirms caller ' },
+      { category: 'names', raw: 'Maya Chen', placeholder: '[PERSON_1]' },
+      { text: ' on account ' },
+      { category: 'referenceIds', raw: 'MC-44219', placeholder: '[ACCOUNT_ID_1]' },
+      { text: '. Callback is ' },
+      { category: 'phone', raw: '(415) 555-0184', placeholder: '[PHONE_1]' },
+      { text: ', email is ' },
+      { category: 'email', raw: 'maya.chen@example.test', placeholder: '[EMAIL_1]' },
+      { text: ', service address is ' },
+      { category: 'address', raw: '118 Harbor Lane Apt 4, Redwood City CA 94063', placeholder: '[ADDRESS_1]' },
+      { text: ', and follow-up is scheduled for ' },
+      { category: 'dates', raw: 'June 14', placeholder: '[DATE_1]' },
+      { text: '.' }
+    ],
+    leakStatus: 'Demo pass: full synthetic risk profile is minimized in the preview.',
+    receiptMetadata: {
+      workflow_id: 'contact-center-call',
+      ruleset_version: 'lab-static-v1',
+      leak_status: 'pass',
+      evidence_scope: 'metadata_only',
+      attestation_mode: 'illustrative_demo'
     }
   },
   {
-    title: 'CRM support note',
+    id: 'crm-support-note',
+    label: 'CRM support note',
     original:
-      'Follow up with Jordan Reed from Acme Cloud Trial on ticket CRM-7782. Last four of payment card 4242 should not be copied into analytics. Preferred email is jordan.reed@example.test, and the renewal quote is Q-20491.',
+      'CRM support note: Jordan Reed from Acme Cloud Trial asked support to attach email jordan.reed@example.test to case CRM-7782. Renewal quote Q-20491 is due on July 2. No phone or address was provided.',
     minimized:
-      'Follow up with [PERSON_1] from [ORGANIZATION_1] on ticket [SUPPORT_ID_1]. [PAYMENT_HINT_1] should not be copied into analytics. Preferred email is [EMAIL_1], and the renewal quote is [QUOTE_ID_1].',
-    leakStatus: 'Demo pass: no original synthetic identifiers shown in output.',
-    counts: {
-      person: 1,
-      organization: 1,
-      support_id: 1,
-      payment_hint: 1,
+      'CRM support note: [PERSON_1] from Acme Cloud Trial asked support to attach email [EMAIL_1] to case [CASE_ID_1]. Renewal quote [QUOTE_ID_1] is due on [DATE_1]. No phone or address was provided.',
+    categoryCounts: {
+      names: 1,
       email: 1,
-      quote_id: 1
+      phone: 0,
+      address: 0,
+      dates: 1,
+      referenceIds: 2
+    },
+    segments: [
+      { text: 'CRM support note: ' },
+      { category: 'names', raw: 'Jordan Reed', placeholder: '[PERSON_1]' },
+      { text: ' from Acme Cloud Trial asked support to attach email ' },
+      { category: 'email', raw: 'jordan.reed@example.test', placeholder: '[EMAIL_1]' },
+      { text: ' to case ' },
+      { category: 'referenceIds', raw: 'CRM-7782', placeholder: '[CASE_ID_1]' },
+      { text: '. Renewal quote ' },
+      { category: 'referenceIds', raw: 'Q-20491', placeholder: '[QUOTE_ID_1]' },
+      { text: ' is due on ' },
+      { category: 'dates', raw: 'July 2', placeholder: '[DATE_1]' },
+      { text: '. No phone or address was provided.' }
+    ],
+    leakStatus: 'Demo pass: selected synthetic identifiers are represented as placeholders.',
+    receiptMetadata: {
+      workflow_id: 'crm-support-note',
+      ruleset_version: 'lab-static-v1',
+      leak_status: 'pass',
+      evidence_scope: 'metadata_only',
+      attestation_mode: 'illustrative_demo'
     }
   },
   {
-    title: 'HR/internal operational note',
+    id: 'hr-internal-note',
+    label: 'HR/internal note',
     original:
-      'Manager note: Priya N. requested time away for a medical appointment on June 14. Employee ID E-10488 is assigned to the case, and team lead Sam Ortiz will cover payroll approval.',
+      'HR/internal note: Priya N. requested schedule coverage on March 18. Employee record E-10488 lists backup Sam Ortiz and home office address 77 Cedar Row Suite 9. HR reply should go to priya.n@example.test.',
     minimized:
-      'Manager note: [EMPLOYEE_1] requested time away for [SENSITIVE_REASON_1] on [DATE_1]. Employee ID [EMPLOYEE_ID_1] is assigned to the case, and team lead [PERSON_2] will cover payroll approval.',
-    leakStatus: 'Demo pass: sensitive context is minimized to category labels.',
-    counts: {
-      employee: 1,
-      sensitive_reason: 1,
-      date: 1,
-      employee_id: 1,
-      person: 1
+      'HR/internal note: [EMPLOYEE_1] requested schedule coverage on [DATE_1]. Employee record [EMPLOYEE_ID_1] lists backup [PERSON_2] and home office address [ADDRESS_1]. HR reply should go to [EMAIL_1].',
+    categoryCounts: {
+      names: 2,
+      email: 1,
+      phone: 0,
+      address: 1,
+      dates: 1,
+      referenceIds: 1
+    },
+    segments: [
+      { text: 'HR/internal note: ' },
+      { category: 'names', raw: 'Priya N.', placeholder: '[EMPLOYEE_1]' },
+      { text: ' requested schedule coverage on ' },
+      { category: 'dates', raw: 'March 18', placeholder: '[DATE_1]' },
+      { text: '. Employee record ' },
+      { category: 'referenceIds', raw: 'E-10488', placeholder: '[EMPLOYEE_ID_1]' },
+      { text: ' lists backup ' },
+      { category: 'names', raw: 'Sam Ortiz', placeholder: '[PERSON_2]' },
+      { text: ' and home office address ' },
+      { category: 'address', raw: '77 Cedar Row Suite 9', placeholder: '[ADDRESS_1]' },
+      { text: '. HR reply should go to ' },
+      { category: 'email', raw: 'priya.n@example.test', placeholder: '[EMAIL_1]' },
+      { text: '.' }
+    ],
+    leakStatus: 'Demo pass: employee-facing synthetic fields are minimized in this preview.',
+    receiptMetadata: {
+      workflow_id: 'hr-internal-note',
+      ruleset_version: 'lab-static-v1',
+      leak_status: 'pass',
+      evidence_scope: 'metadata_only',
+      attestation_mode: 'illustrative_demo'
     }
   },
   {
-    title: 'Legal/compliance-style note',
+    id: 'healthcare-admin-note',
+    label: 'Healthcare admin note',
     original:
-      'Draft memo: case contact Elena Park at elena.park@example.test referenced subpoena matter LGL-3320 and bank account ending 9012. Counsel callback is (212) 555-0147.',
+      'Healthcare admin note: Intake coordinator Lina Brooks called clinic operations about appointment REF-8821 for April 9. Contact email is lina.brooks@example.test, phone is (303) 555-0199, and mailing address is 420 Aspen Circle, Boulder CO 80302.',
     minimized:
-      'Draft memo: case contact [PERSON_1] at [EMAIL_1] referenced subpoena matter [MATTER_ID_1] and [FINANCIAL_ACCOUNT_HINT_1]. Counsel callback is [PHONE_1].',
-    leakStatus: 'Demo pass: receipt preview contains metadata only.',
-    counts: {
-      person: 1,
+      'Healthcare admin note: Intake coordinator [PERSON_1] called clinic operations about appointment [REFERENCE_ID_1] for [DATE_1]. Contact email is [EMAIL_1], phone is [PHONE_1], and mailing address is [ADDRESS_1].',
+    categoryCounts: {
+      names: 1,
       email: 1,
-      matter_id: 1,
-      financial_account_hint: 1,
-      phone: 1
+      phone: 1,
+      address: 1,
+      dates: 1,
+      referenceIds: 1
+    },
+    segments: [
+      { text: 'Healthcare admin note: Intake coordinator ' },
+      { category: 'names', raw: 'Lina Brooks', placeholder: '[PERSON_1]' },
+      { text: ' called clinic operations about appointment ' },
+      { category: 'referenceIds', raw: 'REF-8821', placeholder: '[REFERENCE_ID_1]' },
+      { text: ' for ' },
+      { category: 'dates', raw: 'April 9', placeholder: '[DATE_1]' },
+      { text: '. Contact email is ' },
+      { category: 'email', raw: 'lina.brooks@example.test', placeholder: '[EMAIL_1]' },
+      { text: ', phone is ' },
+      { category: 'phone', raw: '(303) 555-0199', placeholder: '[PHONE_1]' },
+      { text: ', and mailing address is ' },
+      { category: 'address', raw: '420 Aspen Circle, Boulder CO 80302', placeholder: '[ADDRESS_1]' },
+      { text: '.' }
+    ],
+    leakStatus: 'Demo pass: administrative synthetic fields are minimized in the preview.',
+    receiptMetadata: {
+      workflow_id: 'healthcare-admin-note',
+      ruleset_version: 'lab-static-v1',
+      leak_status: 'pass',
+      evidence_scope: 'metadata_only',
+      attestation_mode: 'illustrative_demo'
+    }
+  },
+  {
+    id: 'financial-services-support-note',
+    label: 'Financial services support note',
+    original:
+      'Financial services support note: Omar Patel asked Cardwell Credit Union support about case FS-7310 on May 5. Preferred phone is (646) 555-0133, email is omar.patel@example.test, mailing address is 88 Market Street Floor 12, New York NY 10005, and account ending 9012 was mentioned.',
+    minimized:
+      'Financial services support note: [PERSON_1] asked Cardwell Credit Union support about case [CASE_ID_1] on [DATE_1]. Preferred phone is [PHONE_1], email is [EMAIL_1], mailing address is [ADDRESS_1], and [ACCOUNT_HINT_1] was mentioned.',
+    categoryCounts: {
+      names: 1,
+      email: 1,
+      phone: 1,
+      address: 1,
+      dates: 1,
+      referenceIds: 2
+    },
+    segments: [
+      { text: 'Financial services support note: ' },
+      { category: 'names', raw: 'Omar Patel', placeholder: '[PERSON_1]' },
+      { text: ' asked Cardwell Credit Union support about case ' },
+      { category: 'referenceIds', raw: 'FS-7310', placeholder: '[CASE_ID_1]' },
+      { text: ' on ' },
+      { category: 'dates', raw: 'May 5', placeholder: '[DATE_1]' },
+      { text: '. Preferred phone is ' },
+      { category: 'phone', raw: '(646) 555-0133', placeholder: '[PHONE_1]' },
+      { text: ', email is ' },
+      { category: 'email', raw: 'omar.patel@example.test', placeholder: '[EMAIL_1]' },
+      { text: ', mailing address is ' },
+      { category: 'address', raw: '88 Market Street Floor 12, New York NY 10005', placeholder: '[ADDRESS_1]' },
+      { text: ', and ' },
+      { category: 'referenceIds', raw: 'account ending 9012', placeholder: '[ACCOUNT_HINT_1]' },
+      { text: ' was mentioned.' }
+    ],
+    leakStatus: 'Demo pass: financial-support synthetic references are minimized in the preview.',
+    receiptMetadata: {
+      workflow_id: 'financial-services-support-note',
+      ruleset_version: 'lab-static-v1',
+      leak_status: 'pass',
+      evidence_scope: 'metadata_only',
+      attestation_mode: 'illustrative_demo'
     }
   }
 ]
@@ -71,13 +216,52 @@ function totalCount(counts) {
   return Object.values(counts).reduce((sum, count) => sum + count, 0)
 }
 
-function receiptPreview(example) {
+function allRiskCategoriesEnabled(activeRiskCategories) {
+  return RISK_CATEGORIES.every((category) => activeRiskCategories.includes(category.id))
+}
+
+function workflowOutput(workflow, activeRiskCategories) {
+  if (allRiskCategoriesEnabled(activeRiskCategories)) {
+    return workflow.minimized
+  }
+
+  return workflow.segments
+    .map((segment) => {
+      if (!segment.category) {
+        return segment.text
+      }
+
+      return activeRiskCategories.includes(segment.category) ? segment.placeholder : segment.raw
+    })
+    .join('')
+}
+
+function categoryCountsFor(workflow, activeRiskCategories) {
+  return RISK_CATEGORIES.reduce((counts, category) => {
+    counts[category.id] = activeRiskCategories.includes(category.id)
+      ? workflow.categoryCounts[category.id] || 0
+      : 0
+    return counts
+  }, {})
+}
+
+function leakStatusFor(workflow, activeRiskCategories) {
+  if (allRiskCategoriesEnabled(activeRiskCategories)) {
+    return workflow.leakStatus
+  }
+
+  return 'Illustrative partial profile: categories switched off remain visible in this static preview.'
+}
+
+function receiptPreview(workflow, activeRiskCategories) {
+  const entitiesByType = categoryCountsFor(workflow, activeRiskCategories)
+
   return {
-    ruleset_version: 'demo-static-v0',
-    leak_status: 'pass',
-    entities_total: totalCount(example.counts),
-    entities_by_type: example.counts,
-    attestation_mode: 'illustrative_demo'
+    ...workflow.receiptMetadata,
+    leak_status: allRiskCategoriesEnabled(activeRiskCategories) ? 'pass' : 'partial_profile_preview',
+    selected_categories: activeRiskCategories,
+    entities_total: totalCount(entitiesByType),
+    entities_by_type: entitiesByType
   }
 }
 
@@ -87,6 +271,24 @@ function mailto(subject) {
 
 export default function App() {
   const [scrolled, setScrolled] = useState(false)
+  const [selectedWorkflowId, setSelectedWorkflowId] = useState(WORKFLOW_LAB_EXAMPLES[0].id)
+  const [activeRiskCategories, setActiveRiskCategories] = useState(DEFAULT_RISK_CATEGORY_IDS)
+  const [demoViewMode, setDemoViewMode] = useState('output')
+
+  const selectedWorkflow =
+    WORKFLOW_LAB_EXAMPLES.find((workflow) => workflow.id === selectedWorkflowId) || WORKFLOW_LAB_EXAMPLES[0]
+  const selectedCounts = categoryCountsFor(selectedWorkflow, activeRiskCategories)
+  const selectedOutput = workflowOutput(selectedWorkflow, activeRiskCategories)
+  const selectedLeakStatus = leakStatusFor(selectedWorkflow, activeRiskCategories)
+  const selectedReceipt = receiptPreview(selectedWorkflow, activeRiskCategories)
+
+  const toggleRiskCategory = (categoryId) => {
+    setActiveRiskCategories((currentCategories) =>
+      currentCategories.includes(categoryId)
+        ? currentCategories.filter((currentCategory) => currentCategory !== categoryId)
+        : [...currentCategories, categoryId]
+    )
+  }
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 50)
@@ -256,80 +458,173 @@ export default function App() {
         </div>
       </section>
 
-      {/* Static Demo Section */}
+      {/* Interactive Demo Section */}
       <section id="demo" className="py-20 px-6 bg-white relative">
         <div className="max-w-7xl mx-auto">
           <div className="max-w-4xl mx-auto text-center mb-12">
-            <p className="mono text-sm font-bold text-blue-600 mb-4 tracking-wide">PUBLIC STATIC DEMO</p>
+            <p className="mono text-sm font-bold text-blue-600 mb-4 tracking-wide">PUBLIC SYNTHETIC LAB</p>
             <h2 className="text-5xl md:text-6xl font-bold mb-8 text-gray-900">
-              <span className="gradient-text">Synthector AI Privacy Boundary Demo</span>
+              <span className="gradient-text">Synthector Synthetic Workflow Lab</span>
             </h2>
-            <p className="text-xl text-gray-700 leading-relaxed mb-6">
-              Explore four static synthetic examples showing the intended boundary shape: original synthetic text, minimized output, leak-check status, aggregate counts, and illustrative receipt metadata.
+            <p className="text-xl text-gray-700 leading-relaxed">
+              Select a synthetic workflow, adjust the illustrative risk profile, and compare minimized output with evidence-style metadata.
             </p>
-            <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 text-left text-gray-800 shadow-sm">
-              <p className="font-bold mb-3">
-                This is a static synthetic demo. It shows representative inputs, minimized outputs, leak-check status, and illustrative evidence metadata. It does not accept user-entered text or call a live API.
-              </p>
-              <p className="text-gray-700">
-                Custom workflow testing is available through a controlled technical-fit call.
-              </p>
+          </div>
+
+          <div className="bg-blue-50 border-2 border-blue-200 rounded-2xl p-6 sm:p-8 text-left text-gray-800 shadow-sm mb-10">
+            <h3 className="text-2xl font-bold mono text-gray-900 mb-4">What this is not doing</h3>
+            <p className="text-gray-700 text-lg leading-relaxed">
+              This is an interactive synthetic demonstration. It does not process user-entered text, call a live API, or run the proprietary Synthector engine in the browser. The purpose is to show the workflow pattern: sensitive text enters an AI workflow, minimization happens before downstream processing, a leak-check outcome is produced, and evidence-style metadata is returned.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8">
+            <div className="feature-card p-8 rounded-2xl border-glow bg-white">
+              <h3 className="text-3xl font-bold mono text-gray-900 mb-6">Workflow selector</h3>
+              <div className="space-y-3">
+                {WORKFLOW_LAB_EXAMPLES.map((workflow) => {
+                  const selected = workflow.id === selectedWorkflow.id
+
+                  return (
+                    <button
+                      key={workflow.id}
+                      type="button"
+                      onClick={() => setSelectedWorkflowId(workflow.id)}
+                      aria-pressed={selected}
+                      className={`w-full text-left px-4 py-4 rounded-xl border-2 transition-all mono font-bold ${
+                        selected
+                          ? 'bg-blue-600 text-white border-blue-600 shadow-lg shadow-blue-600/20'
+                          : 'bg-white text-gray-800 border-gray-200 hover:border-blue-400 hover:bg-blue-50'
+                      }`}
+                    >
+                      {workflow.label}
+                    </button>
+                  )
+                })}
+              </div>
+            </div>
+
+            <div className="feature-card p-8 rounded-2xl border-glow bg-white">
+              <h3 className="text-3xl font-bold mono text-gray-900 mb-6">Risk-category toggles</h3>
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                {RISK_CATEGORIES.map((category) => {
+                  const active = activeRiskCategories.includes(category.id)
+
+                  return (
+                    <button
+                      key={category.id}
+                      type="button"
+                      onClick={() => toggleRiskCategory(category.id)}
+                      aria-pressed={active}
+                      className={`flex items-center justify-between gap-3 px-4 py-3 rounded-xl border-2 transition-all ${
+                        active
+                          ? 'bg-blue-50 text-blue-800 border-blue-300'
+                          : 'bg-gray-50 text-gray-600 border-gray-200 hover:border-blue-300'
+                      }`}
+                    >
+                      <span className="font-bold">{category.label}</span>
+                      <span className={`w-5 h-5 rounded-full border-2 ${active ? 'bg-blue-600 border-blue-600' : 'bg-white border-gray-300'}`}></span>
+                    </button>
+                  )
+                })}
+              </div>
+
+              <div className="mt-8 pt-6 border-t-2 border-blue-100">
+                <h4 className="mono text-sm font-bold text-gray-900 mb-3">View mode</h4>
+                <div className="inline-flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                  {[
+                    { id: 'output', label: 'Minimized output' },
+                    { id: 'evidence', label: 'Evidence view' }
+                  ].map((mode) => (
+                    <button
+                      key={mode.id}
+                      type="button"
+                      onClick={() => setDemoViewMode(mode.id)}
+                      aria-pressed={demoViewMode === mode.id}
+                      className={`px-5 py-3 rounded-xl border-2 mono font-bold transition-all ${
+                        demoViewMode === mode.id
+                          ? 'bg-blue-600 text-white border-blue-600'
+                          : 'bg-white text-gray-800 border-gray-200 hover:border-blue-400 hover:bg-blue-50'
+                      }`}
+                    >
+                      {mode.label}
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-            {DEMO_EXAMPLES.map((example) => (
-              <article key={example.title} className="feature-card rounded-2xl border-glow bg-white overflow-hidden">
-                <div className="p-6 sm:p-8 border-b-2 border-blue-100">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="text-2xl font-bold mono text-gray-900 mb-3">{example.title}</h3>
-                      <div className="inline-flex items-center gap-2 bg-green-50 border-2 border-green-200 text-green-800 px-3 py-2 rounded-lg mono text-sm font-bold">
-                        <CheckCircle className="w-4 h-4" />
-                        <span>Leak-check status</span>
-                      </div>
-                    </div>
-                    <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center border-2 border-blue-200 flex-shrink-0">
-                      <FileText className="w-7 h-7 text-blue-600" />
-                    </div>
-                  </div>
-                  <p className="mt-4 text-gray-700 leading-relaxed">{example.leakStatus}</p>
+          <div className="mt-8 grid grid-cols-1 lg:grid-cols-[0.95fr_1.05fr] gap-8">
+            <article className="feature-card rounded-2xl border-glow bg-white overflow-hidden">
+              <div className="p-6 sm:p-8 border-b-2 border-blue-100 flex items-start justify-between gap-4">
+                <div>
+                  <p className="mono text-sm font-bold text-blue-600 mb-2">Selected workflow</p>
+                  <h3 className="text-3xl font-bold mono text-gray-900">{selectedWorkflow.label}</h3>
                 </div>
+                <div className="w-14 h-14 bg-blue-100 rounded-xl flex items-center justify-center border-2 border-blue-200 flex-shrink-0">
+                  <FileText className="w-7 h-7 text-blue-600" />
+                </div>
+              </div>
+              <div className="p-6 sm:p-8">
+                <h4 className="mono text-sm font-bold text-gray-900 mb-3">Original synthetic text</h4>
+                <p className="bg-gray-50 border-2 border-gray-200 rounded-xl p-5 text-gray-700 leading-relaxed">
+                  {selectedWorkflow.original}
+                </p>
+              </div>
+            </article>
 
-                <div className="p-6 sm:p-8 space-y-6">
-                  <div>
-                    <h4 className="mono text-sm font-bold text-gray-900 mb-3">Original synthetic text</h4>
-                    <p className="bg-gray-50 border-2 border-gray-200 rounded-xl p-4 text-gray-700 leading-relaxed">
-                      {example.original}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="mono text-sm font-bold text-gray-900 mb-3">Minimized/redacted output</h4>
-                    <p className="bg-blue-50 border-2 border-blue-200 rounded-xl p-4 text-gray-800 leading-relaxed">
-                      {example.minimized}
-                    </p>
-                  </div>
-
-                  <div>
-                    <h4 className="mono text-sm font-bold text-gray-900 mb-3">Detected/minimized category counts</h4>
-                    <div className="flex flex-wrap gap-2">
-                      {Object.entries(example.counts).map(([category, count]) => (
-                        <span key={category} className="inline-flex items-center gap-2 bg-white border-2 border-gray-200 rounded-lg px-3 py-2 mono text-sm text-gray-800">
-                          <span className="font-bold">{category}</span>
-                          <span className="text-blue-600 font-bold">{count}</span>
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-
-                  <div>
-                    <h4 className="mono text-sm font-bold text-gray-900 mb-3">Attestation-style receipt preview</h4>
-                    <pre className="bg-gray-950 text-blue-50 rounded-xl p-4 text-sm overflow-x-auto whitespace-pre-wrap break-words mono border-2 border-gray-800">{JSON.stringify(receiptPreview(example), null, 2)}</pre>
+            <article className="feature-card rounded-2xl border-glow bg-white overflow-hidden">
+              <div className="p-6 sm:p-8 border-b-2 border-blue-100">
+                <div className="flex items-center justify-between gap-4 flex-wrap">
+                  <h3 className="text-3xl font-bold mono text-gray-900">
+                    {demoViewMode === 'output' ? 'Minimized output' : 'Evidence view'}
+                  </h3>
+                  <div className="inline-flex items-center gap-2 bg-green-50 border-2 border-green-200 text-green-800 px-3 py-2 rounded-lg mono text-sm font-bold">
+                    <CheckCircle className="w-4 h-4" />
+                    <span>Leak-check status</span>
                   </div>
                 </div>
-              </article>
-            ))}
+                <p className="mt-4 text-gray-700 leading-relaxed">{selectedLeakStatus}</p>
+              </div>
+
+              <div className="p-6 sm:p-8 space-y-6">
+                {demoViewMode === 'output' ? (
+                  <div>
+                    <h4 className="mono text-sm font-bold text-gray-900 mb-3">Preview output</h4>
+                    <p className="bg-blue-50 border-2 border-blue-200 rounded-xl p-5 text-gray-800 leading-relaxed">
+                      {selectedOutput}
+                    </p>
+                  </div>
+                ) : (
+                  <div>
+                    <h4 className="mono text-sm font-bold text-gray-900 mb-3">Illustrative receipt metadata</h4>
+                    <pre className="bg-gray-950 text-blue-50 rounded-xl p-5 text-sm overflow-x-auto whitespace-pre-wrap break-words mono border-2 border-gray-800">{JSON.stringify(selectedReceipt, null, 2)}</pre>
+                  </div>
+                )}
+
+                <div>
+                  <h4 className="mono text-sm font-bold text-gray-900 mb-3">Detected/minimized category counts</h4>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {RISK_CATEGORIES.map((category) => {
+                      const active = activeRiskCategories.includes(category.id)
+
+                      return (
+                        <div
+                          key={category.id}
+                          className={`flex items-center justify-between gap-3 rounded-xl border-2 px-4 py-3 mono ${
+                            active ? 'bg-white border-blue-200 text-gray-900' : 'bg-gray-50 border-gray-200 text-gray-500'
+                          }`}
+                        >
+                          <span className="font-bold">{category.label}</span>
+                          <span className="text-blue-600 font-bold">{selectedCounts[category.id]}</span>
+                        </div>
+                      )
+                    })}
+                  </div>
+                </div>
+              </div>
+            </article>
           </div>
 
           <div className="mt-12 grid grid-cols-1 lg:grid-cols-[1fr_1.2fr] gap-8 items-stretch">
@@ -337,10 +632,10 @@ export default function App() {
               <h3 className="text-3xl font-bold mono text-gray-900 mb-6">Trust panel</h3>
               <ul className="space-y-4">
                 {[
-                  'Static synthetic demo',
+                  'Static synthetic workflows',
                   'No public API call',
                   'No user text collection',
-                  'No LLM dependency in the core redaction thesis',
+                  'No browser copy of the proprietary engine',
                   'Metadata-only evidence preview'
                 ].map((item) => (
                   <li key={item} className="flex items-start gap-3 text-gray-700">
@@ -370,15 +665,23 @@ export default function App() {
                 Controlled workflow testing
               </h3>
               <p className="text-gray-700 text-lg mb-8 leading-relaxed">
-                Use email for controlled workflow testing, fit review, and safe sample-handling discussion.
+                Use email for controlled sandbox access, fit review, and safe sample-handling discussion.
               </p>
-              <a
-                href={mailto('Synthector 20-minute Technical-Fit Call Request')}
-                className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-5 rounded-xl font-bold text-base sm:text-lg leading-snug transition-all hover:scale-105 inline-flex items-center justify-center gap-3 shadow-xl shadow-blue-600/30 glow w-full sm:w-fit text-left sm:text-center"
-              >
-                <span>Testing AI workflows with sensitive text? Request a 20-minute technical-fit call.</span>
-                <ArrowRight className="w-6 h-6" />
-              </a>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <a
+                  href={mailto('Synthector sandbox access')}
+                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-5 rounded-xl font-bold text-base sm:text-lg leading-snug transition-all hover:scale-105 inline-flex items-center justify-center gap-3 shadow-xl shadow-blue-600/30 glow text-left sm:text-center"
+                >
+                  <span>Request controlled sandbox access</span>
+                  <ArrowRight className="w-6 h-6" />
+                </a>
+                <a
+                  href={mailto('Synthector 20-minute Technical-Fit Call Request')}
+                  className="border-2 border-gray-300 hover:border-blue-600 hover:bg-blue-50 text-gray-900 px-8 py-5 rounded-xl font-bold text-base sm:text-lg leading-snug transition-all inline-flex items-center justify-center gap-3 mono"
+                >
+                  <span>Request a 20-minute technical-fit call</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
