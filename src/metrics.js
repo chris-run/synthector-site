@@ -32,6 +32,18 @@ const VIEW_MODE_SLUGS = {
   evidence: 'evidence'
 }
 
+// s_src/s_cmp are first-party aggregate campaign labels, not user identifiers.
+const ATTRIBUTION_PARAMS = {
+  source: {
+    primary: 's_src',
+    legacy: 'utm_source'
+  },
+  campaign: {
+    primary: 's_cmp',
+    legacy: 'utm_campaign'
+  }
+}
+
 function normalizeUtmValue(value) {
   if (!value) {
     return 'unknown'
@@ -47,8 +59,23 @@ function hashQueryParams(hash) {
     return new URLSearchParams()
   }
 
-  // Support links copied as /#demo?utm_source=... where the query lives in the hash.
+  // Support links copied as /#demo?s_src=... where the query lives in the hash.
   return new URLSearchParams(hash.slice(queryStart + 1))
+}
+
+function paramValue(params, name) {
+  return params.has(name) ? params.get(name) : null
+}
+
+function attributionParamValue(searchParams, hashParams, { primary, legacy }) {
+  const values = [
+    paramValue(searchParams, primary),
+    paramValue(hashParams, primary),
+    paramValue(searchParams, legacy),
+    paramValue(hashParams, legacy)
+  ]
+
+  return values.find((value) => value !== null)
 }
 
 function utmContext() {
@@ -61,12 +88,14 @@ function utmContext() {
 
   const searchParams = new URLSearchParams(window.location.search)
   const hashParams = hashQueryParams(window.location.hash)
-  const paramValue = (name) =>
-    searchParams.has(name) ? searchParams.get(name) : hashParams.get(name)
 
   return {
-    utm_source: normalizeUtmValue(paramValue('utm_source')),
-    utm_campaign: normalizeUtmValue(paramValue('utm_campaign'))
+    utm_source: normalizeUtmValue(
+      attributionParamValue(searchParams, hashParams, ATTRIBUTION_PARAMS.source)
+    ),
+    utm_campaign: normalizeUtmValue(
+      attributionParamValue(searchParams, hashParams, ATTRIBUTION_PARAMS.campaign)
+    )
   }
 }
 
