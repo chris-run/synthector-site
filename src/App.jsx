@@ -524,6 +524,9 @@ export default function App() {
             <p className="text-gray-700 text-lg leading-relaxed">
               This is an interactive synthetic demonstration. It does not process user-entered text, call a live API, or run the proprietary Synthector engine in the browser. The purpose is to show the workflow pattern: sensitive text enters an AI workflow, minimization happens before downstream processing, a leak-check outcome is produced, and evidence-style metadata is returned.
             </p>
+            <p className="text-gray-700 text-lg leading-relaxed mt-4">
+              Privacy note: the public demo records limited first-party aggregate interaction metrics to evaluate usefulness. It does not collect user-entered content, raw or minimized demo text, cookies, browser storage identifiers, full user agents, or third-party analytics identifiers.
+            </p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-[0.9fr_1.1fr] gap-8">
