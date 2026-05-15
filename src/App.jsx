@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { Shield, Lock, CheckCircle, ArrowRight, Zap, FileText, Eye, Database, ExternalLink } from 'lucide-react'
 import { trackLabMetric } from './metrics'
+import SandboxRequestForm from './SandboxRequestForm'
 
 const CONTACT_EMAIL = 'contact@synthector.com'
 
@@ -712,28 +713,26 @@ export default function App() {
               </div>
             </div>
 
-            <div className="bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 border-2 border-blue-200 rounded-2xl p-8 flex flex-col justify-center">
+            <div id="sandbox-request" className="bg-gradient-to-br from-blue-50 via-indigo-50 to-blue-50 border-2 border-blue-200 rounded-2xl p-8">
               <h3 className="text-3xl md:text-4xl font-bold text-gray-900 mb-5 leading-tight">
-                Controlled workflow testing
+                Request controlled sandbox access
               </h3>
-              <p className="text-gray-700 text-lg mb-8 leading-relaxed">
-                Use email for controlled sandbox access, fit review, and safe sample-handling discussion.
+              <p className="text-gray-700 text-lg mb-6 leading-relaxed">
+                Submit a controlled access request for synthetic or non-confidential workflow testing. Verification happens by email before manual review.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4">
-                <a
-                  href={mailto('Synthector sandbox access')}
-                  onClick={() => trackCurrentLabMetric('sandbox_request_clicked')}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-5 rounded-xl font-bold text-base sm:text-lg leading-snug transition-all hover:scale-105 inline-flex items-center justify-center gap-3 shadow-xl shadow-blue-600/30 glow text-left sm:text-center"
-                >
-                  <span>Request controlled sandbox access</span>
-                  <ArrowRight className="w-6 h-6" />
-                </a>
+              <SandboxRequestForm
+                fallbackHref={mailto('Synthector sandbox access')}
+                onSubmitAttempt={() => trackCurrentLabMetric('sandbox_request_clicked')}
+                onFallbackClick={() => trackCurrentLabMetric('sandbox_request_clicked')}
+              />
+              <div className="mt-5 pt-5 border-t-2 border-blue-100">
                 <a
                   href={mailto('Synthector 20-minute Technical-Fit Call Request')}
                   onClick={() => trackCurrentLabMetric('technical_call_clicked')}
-                  className="border-2 border-gray-300 hover:border-blue-600 hover:bg-blue-50 text-gray-900 px-8 py-5 rounded-xl font-bold text-base sm:text-lg leading-snug transition-all inline-flex items-center justify-center gap-3 mono"
+                  className="inline-flex items-center gap-2 text-blue-600 hover:text-blue-700 font-bold mono transition-colors"
                 >
                   <span>Request a 20-minute technical-fit call</span>
+                  <ArrowRight className="w-5 h-5" />
                 </a>
               </div>
             </div>
