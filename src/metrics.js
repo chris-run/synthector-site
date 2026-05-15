@@ -99,6 +99,15 @@ function utmContext() {
   }
 }
 
+export function getFirstPartyAttribution() {
+  const { utm_source, utm_campaign } = utmContext()
+
+  return {
+    s_src: utm_source,
+    s_cmp: utm_campaign
+  }
+}
+
 function workflowSlugFor(workflowId) {
   return WORKFLOW_SLUGS[workflowId] || 'unknown'
 }
